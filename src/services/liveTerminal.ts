@@ -1,5 +1,6 @@
-// Actualización en vivo desde terminalrosario.gob.ar. Solo funciona en nativo (CapacitorHttp evita CORS);
-// en web devuelve null porque el sitio de la terminal no tiene CORS habilitado.
+// Actualización en vivo desde terminalrosario.gob.ar. En nativo se consulta directo (CapacitorHttp evita
+// CORS); en web se pasa por la función de Vercel /api/terminal, porque la terminal no habilita CORS.
+// Si la web se sirve sin esas funciones (p. ej. `vite dev`), la consulta falla y se usan los datos incluidos.
 
 import type { Servicio } from '../lib/types';
 import { parseResultados } from '../lib/terminal-parser';
@@ -22,18 +23,20 @@ async function obtenerHtml(url: string, signal: AbortSignal): Promise<string> {
 
 /**
  * Descarga y parsea las dos direcciones desde la terminal, las combina con los datos del
- * municipio (33/9) y devuelve la lista fusionada. Devuelve null si no está en nativo, si hay
- * timeout/error de red, o si la respuesta no pasa el chequeo de sanidad (muy pocos servicios).
+ * municipio (33/9) y devuelve la lista fusionada. Devuelve null si hay timeout/error de red
+ * o si la respuesta no pasa el chequeo de sanidad (muy pocos servicios).
  */
 export async function actualizarDesdeTerminal(): Promise<Servicio[] | null> {
-  if (!esNativo()) return null;
+  const nativo = esNativo();
+  const urlRC = nativo ? URL_ROSARIO_CASILDA : '/api/terminal?sentido=rc';
+  const urlCR = nativo ? URL_CASILDA_ROSARIO : '/api/terminal?sentido=cr';
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
     const [htmlRC, htmlCR] = await Promise.all([
-      obtenerHtml(URL_ROSARIO_CASILDA, controller.signal),
-      obtenerHtml(URL_CASILDA_ROSARIO, controller.signal),
+      obtenerHtml(urlRC, controller.signal),
+      obtenerHtml(urlCR, controller.signal),
     ]);
 
     const serviciosRC = parseResultados(htmlRC, 'RC');

@@ -1,4 +1,5 @@
-// Detección de alertas de paro vía Google News RSS. Solo nativo (el RSS no manda CORS en web).
+// Detección de alertas de paro vía Google News RSS. En nativo se consulta directo; en web, por la
+// función de Vercel /api/noticias (el RSS no manda CORS). Mantener QUERIES igual a api/noticias.ts.
 
 import type { Alerta } from '../lib/types';
 import { esNativo } from './plataforma';
@@ -21,6 +22,7 @@ interface ItemRss {
 }
 
 function urlRss(query: string): string {
+  if (!esNativo()) return `/api/noticias?q=${QUERIES.indexOf(query)}`;
   const q = encodeURIComponent(query);
   return `https://news.google.com/rss/search?q=${q}&hl=es-419&gl=AR&ceid=AR:es-419`;
 }
@@ -86,8 +88,6 @@ function similares(a: string, b: string): boolean {
 
 /** Busca en Google News RSS noticias recientes de paro de colectivos relevantes a Rosario/Casilda. */
 export async function buscarAlertasParo(): Promise<Alerta[]> {
-  if (!esNativo()) return [];
-
   const corteMs = Date.now() - VENTANA_HORAS * 60 * 60 * 1000;
   const todosLosItems: ItemRss[] = [];
 

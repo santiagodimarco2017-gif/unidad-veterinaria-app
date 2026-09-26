@@ -50,6 +50,8 @@ export default defineConfig({
       workbox: {
         // woff2: fuentes de Carrera (Fraunces / Work Sans) empaquetadas para uso offline.
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest,woff2}'],
+        // Las funciones de Vercel (/api/*) nunca se sirven desde el index.html offline.
+        navigateFallbackDenylist: [/^\/api\//],
       },
     }),
   ],

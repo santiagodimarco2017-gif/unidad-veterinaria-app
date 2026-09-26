@@ -31,6 +31,14 @@ npm run build      # build web / PWA en dist/
 npm run scrape     # actualiza src/data/terminal-snapshot.json desde la terminal
 ```
 
+### Web en Vercel
+
+Importá el repo en Vercel: detecta Vite solo (build `npm run build`, salida `dist`). Las funciones de
+`api/` (`/api/terminal` y `/api/noticias`) le dan a la versión web la actualización en vivo desde la
+terminal y los avisos de paro, que el navegador no puede consultar directo por CORS. Solo aceptan las
+URLs fijas de la app. La web se puede instalar en el celular (PWA): en iPhone, Safari → Compartir →
+"Agregar a pantalla de inicio".
+
 ### Android
 
 Requiere JDK 21 y Android SDK 36.
