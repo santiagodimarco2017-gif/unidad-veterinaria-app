@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import type { StudentProgress, SubjectState, ViewMode } from '../types';
-import { SUBJECTS, evaluateAllSubjects } from '../data/subjects';
+import type { StudentProgress, ViewMode } from '../types';
+import { SUBJECTS } from '../data/subjects';
+import { compararSimulacion, siguienteEstado } from '../lib/simulador';
 import { Sparkles, ArrowRight, CheckCircle2, RotateCcw, Save, Zap } from 'lucide-react';
 
 interface SimulatorModeProps {
@@ -17,36 +18,15 @@ export const SimulatorMode: React.FC<SimulatorModeProps> = ({
   // Temporary simulation state initialized from real progress
   const [simProgress, setSimProgress] = useState<StudentProgress>({ ...realProgress });
 
-  // Evaluate baseline vs simulation
-  const baselineEval = evaluateAllSubjects(realProgress, viewMode);
-  const simEval = evaluateAllSubjects(simProgress, viewMode);
-
-  // Find newly unlocked subjects
-  const newlyUnlocked: string[] = [];
-  const newlyApproved: string[] = [];
-
-  for (const [code, simItem] of simEval.entries()) {
-    const baseItem = baselineEval.get(code);
-
-    if (simProgress[code] === 'aprobada' && realProgress[code] !== 'aprobada') {
-      newlyApproved.push(code);
-    }
-
-    if (simItem.isEnabled && baseItem && !baseItem.isEnabled && simItem.state !== 'aprobada') {
-      newlyUnlocked.push(code);
-    }
-  }
+  // Materias que la simulación aprobaría y las que destrabaría
+  const { nuevasAprobadas: newlyApproved, nuevasDestrabadas: newlyUnlocked } = compararSimulacion(
+    realProgress,
+    simProgress,
+    viewMode
+  );
 
   const handleSimStateToggle = (code: string) => {
-    setSimProgress((prev) => {
-      const current = prev[code] || 'pendiente';
-      let nextState: SubjectState = 'pendiente';
-      if (current === 'pendiente') nextState = 'regular';
-      else if (current === 'regular') nextState = 'aprobada';
-      else nextState = 'pendiente';
-
-      return { ...prev, [code]: nextState };
-    });
+    setSimProgress((prev) => ({ ...prev, [code]: siguienteEstado(prev[code]) }));
   };
 
   const resetSim = () => setSimProgress({ ...realProgress });
