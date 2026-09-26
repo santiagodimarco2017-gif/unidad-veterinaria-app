@@ -57,12 +57,50 @@
 }
 
 .inicio-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 6px 2px 14px;
+}
+.inicio-head__txt { flex: 1; min-width: 0; }
+.inicio-head__marca {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 .inicio-head__date {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-3);
+  margin-top: 2px;
+}
+.inicio-head__logo { flex-shrink: 0; border-radius: 50%; transition: transform 0.2s var(--ease); }
+.inicio-head__logo:active { transform: scale(0.94); }
+.inicio-head__logo .app-logo { border-radius: 50%; box-shadow: 0 10px 22px -10px var(--brand-deep); }
+
+/* Firma al pie del feed */
+.firma {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px 12px 0;
+  color: var(--text-3);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+.firma b { display: block; color: var(--accent); font-size: 0.86rem; font-weight: 800; }
+.firma .app-logo { border-radius: 50%; box-shadow: none; }
+
+/* Marca de agua: silueta blanca del logo sobre los fondos verdes */
+.marca-agua {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.09;
 }
 .inicio-head__title {
   font-family: var(--font-display);
@@ -593,6 +631,8 @@ a.fila:active { background: var(--surface-2); }
   transition: transform 0.2s var(--ease);
 }
 .hero:active { transform: scale(0.985); }
+.hero__marca { width: 250px; right: -46px; bottom: -34px; transform: rotate(-8deg); }
+.carrera-marca { width: 190px; max-width: none; right: -30px; bottom: -36px; opacity: 0.1; transform: rotate(-8deg); }
 .hero__top { display: flex; align-items: center; justify-content: space-between; }
 .hero__kicker {
   display: inline-flex;
@@ -1317,7 +1357,7 @@ a.fila:active { background: var(--surface-2); }
   display: grid;
   place-items: center;
   background: #f3f6f3;
-  color: #068136;
+  color: #0d4a2c;
 }
 .carrera-cargando .spinner { width: 28px; height: 28px; }
 
@@ -1408,14 +1448,26 @@ a.fila:active { background: var(--surface-2); }
 
 /* ---------- más / contactos ---------- */
 .brand {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 12px 2px 4px;
+  margin-top: 8px;
+  padding: 18px 16px;
+  border-radius: 22px;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  background:
+    radial-gradient(90% 90% at 100% 0%, rgba(185, 139, 62, 0.26) 0%, transparent 70%),
+    linear-gradient(155deg, var(--hero-a) 0%, var(--hero-b) 100%);
 }
+.brand__marca { width: 170px; right: -30px; bottom: -40px; opacity: 0.1; transform: rotate(-8deg); }
+.brand .app-logo { border-radius: 50%; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18); }
 .brand__txt { min-width: 0; }
-.brand__t { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; color: var(--accent); }
-.brand__s { color: var(--text-2); font-size: 0.95rem; margin-top: 2px; }.credit-foot { text-align: center; font-size: 0.88rem; color: var(--text-3); margin-top: 28px; line-height: 1.6; }
+.brand__t { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; color: #fff; }
+.brand__s { color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; margin-top: 2px; }
+.credit-foot { text-align: center; font-size: 0.88rem; color: var(--text-3); margin-top: 28px; line-height: 1.6; }
 
 .contact { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 .contact__head { display: flex; gap: 12px; align-items: flex-start; }
