@@ -1,0 +1,168 @@
+/* ============================================================================
+   Carrera (Correlativas FCV-UNR · Unidad Veterinaria) — Tailwind v4 AISLADO
+   ----------------------------------------------------------------------------
+   - NO se importa `tailwindcss` completo: sin preflight global (html, body,
+     button, h1, * …) que alteraría el UI de colectivos.
+   - Se importan sólo theme + utilities en capas, y un preflight propio
+     acotado a `.carrera-root` dentro de `@layer base`.
+   - `source(none)` + `@source "./"`: Tailwind sólo escanea src/carrera, así
+     no genera utilidades a partir de clases del UI de colectivos.
+   - El CSS de colectivos (index.css/App.css) no tiene capa: sus reglas de
+     elementos excluyen `.carrera-root *` con :where(:not(...)).
+   Este archivo se carga sólo con el chunk perezoso de Carrera.
+   ============================================================================ */
+
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
+@source './';
+
+/* Fuentes empaquetadas (offline, sin Google Fonts) */
+@import '@fontsource-variable/fraunces/wght.css';
+@import '@fontsource-variable/work-sans/wght.css';
+
+/* La app original era clara: el modo oscuro de Tailwind nunca se activa acá
+   (el UI de colectivos puede estar en oscuro, Carrera mantiene su look académico). */
+@custom-variant dark (&:where(.carrera-dark-nunca, .carrera-dark-nunca *));
+
+@theme {
+  --font-serif: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  --font-sans: 'Work Sans Variable', 'Work Sans', system-ui, -apple-system, sans-serif;
+
+  --color-academic-green: #003217;
+  --color-academic-green-light: #054b26;
+  --color-academic-gold: #b98b3e;
+  --color-academic-gold-light: #fec975;
+  --color-paper: #f8faf4;
+}
+
+/* ---------- Preflight de Tailwind, acotado a .carrera-root ---------- */
+@layer base {
+  .carrera-root,
+  .carrera-root *,
+  .carrera-root ::after,
+  .carrera-root ::before,
+  .carrera-root ::backdrop,
+  .carrera-root ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+
+  .carrera-root {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: var(--font-sans);
+    font-feature-settings: normal;
+    font-variation-settings: normal;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .carrera-root hr { height: 0; color: inherit; border-top-width: 1px; }
+  .carrera-root abbr:where([title]) { text-decoration: underline dotted; }
+  .carrera-root :is(h1, h2, h3, h4, h5, h6) { font-size: inherit; font-weight: inherit; }
+  .carrera-root a { color: inherit; text-decoration: inherit; }
+  .carrera-root :is(b, strong) { font-weight: bolder; }
+  .carrera-root :is(code, kbd, samp, pre) {
+    font-family: var(--font-mono);
+    font-feature-settings: normal;
+    font-variation-settings: normal;
+    font-size: 1em;
+  }
+  .carrera-root small { font-size: 80%; }
+  .carrera-root :is(sub, sup) { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+  .carrera-root sub { bottom: -0.25em; }
+  .carrera-root sup { top: -0.5em; }
+  .carrera-root table { text-indent: 0; border-color: inherit; border-collapse: collapse; }
+  .carrera-root progress { vertical-align: baseline; }
+  .carrera-root summary { display: list-item; }
+  .carrera-root :is(ol, ul, menu) { list-style: none; }
+  .carrera-root :is(img, svg, video, canvas, audio, iframe, embed, object) { display: block; vertical-align: middle; }
+  .carrera-root :is(img, video) { max-width: 100%; height: auto; }
+  .carrera-root :is(button, input, select, optgroup, textarea),
+  .carrera-root ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+  .carrera-root ::file-selector-button { margin-inline-end: 4px; }
+  .carrera-root ::placeholder { opacity: 1; color: color-mix(in oklab, currentcolor 50%, transparent); }
+  .carrera-root textarea { resize: vertical; }
+  .carrera-root ::-webkit-search-decoration { -webkit-appearance: none; }
+  .carrera-root :is(button, input:where([type='button'], [type='reset'], [type='submit'])) { appearance: button; }
+  .carrera-root ::-webkit-inner-spin-button,
+  .carrera-root ::-webkit-outer-spin-button { height: auto; }
+  .carrera-root [hidden]:where(:not([hidden='until-found'])) { display: none !important; }
+
+  /* Los botones del navegador muestran cursor de texto sin esto (index.css del bus ya no aplica acá) */
+  .carrera-root button { cursor: pointer; }
+  .carrera-root :is(input, textarea) { user-select: text; -webkit-user-select: text; }
+}
+
+/* ---------- Contenedor de la pestaña Carrera ---------- */
+@layer components {
+  .carrera-root {
+    /* Tokens de Tailwind que el UI de colectivos redefine en :root (sin capa) */
+    --radius-sm: 0.25rem;
+
+    color-scheme: light;
+    position: absolute;
+    inset: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    background: #f3f6f3;
+    color: #191c19;
+    -webkit-font-smoothing: antialiased;
+    /* El inset superior (notch / barra de estado) lo toma .carrera-subnav, que es pegajosa */
+    padding-left: var(--safe-left, 0px);
+    padding-right: var(--safe-right, 0px);
+    /* Que nada quede tapado por la barra de pestañas fija */
+    padding-bottom: calc(var(--tabbar-h, 58px) + var(--safe-bottom, 0px) + 8px);
+  }
+
+  .carrera-root .font-serif { font-family: var(--font-serif); }
+
+  /* Overlays (Flappy, reporte, detalle de materia): por encima de la barra de pestañas (z 50)
+     y de las hojas del bus (z 60), debajo del toast (z 80). */
+  .carrera-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    padding: var(--safe-top, 0px) var(--safe-right, 0px) var(--safe-bottom, 0px) var(--safe-left, 0px);
+  }
+
+  /* Barra de secciones pegajosa */
+  .carrera-subnav {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    padding-top: var(--safe-top, 0px);
+    background: rgba(243, 246, 243, 0.9);
+    -webkit-backdrop-filter: saturate(1.6) blur(14px);
+    backdrop-filter: saturate(1.6) blur(14px);
+  }
+
+  .carrera-scroll-x {
+    scrollbar-width: none;
+  }
+  .carrera-scroll-x::-webkit-scrollbar { display: none; }
+
+  /* Scrollbar sutil de la app original */
+  .carrera-root ::-webkit-scrollbar { width: 6px; height: 6px; }
+  .carrera-root ::-webkit-scrollbar-track { background: #ecefe9; }
+  .carrera-root ::-webkit-scrollbar-thumb { background: #c0c9be; border-radius: 9999px; }
+}
+
+@media print {
+  .carrera-root { position: static; overflow: visible; padding: 0; }
+}

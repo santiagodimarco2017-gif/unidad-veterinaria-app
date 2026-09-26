@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Config de seguridad de red: por defecto solo HTTPS. Se habilita cleartext (HTTP) únicamente para
+  terminalrosario.gob.ar, que no tiene HTTPS, para poder actualizar los horarios en vivo desde el teléfono.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">terminalrosario.gob.ar</domain>
+    </domain-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
