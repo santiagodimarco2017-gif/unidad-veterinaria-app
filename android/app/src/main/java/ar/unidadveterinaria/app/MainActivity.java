@@ -1,4 +1,4 @@
-package ar.unidadveterinaria.casildabus;
+package ar.unidadveterinaria.app;
 
 import com.getcapacitor.BridgeActivity;
 
