@@ -11,7 +11,8 @@ import {
   Info,
   CalendarDays,
   ListFilter,
-  Check
+  Check,
+  CalendarPlus
 } from 'lucide-react';
 import {
   MONTH_NAMES,
@@ -27,7 +28,28 @@ interface AcademicCalendarProps {
   onSubjectSelect?: (code: string) => void;
   /** Abre "¿Cómo llego?" (colectivos Rosario → Casilda) para esa mesa */
   onComoLlego?: (exam: ExamDate) => void;
+  /** Link "Agendar en Google Calendar" para esa mesa */
+  linkAgendar?: (exam: ExamDate) => string;
 }
+
+/** Botón "Agendar en Google Calendar" de cada mesa (abre Google Calendar con el evento precargado) */
+const AgendarBtn: React.FC<{ exam: ExamDate; linkAgendar?: (exam: ExamDate) => string; compact?: boolean }> = ({ exam, linkAgendar, compact }) => {
+  if (!linkAgendar) return null;
+  return (
+    <a
+      href={linkAgendar(exam)}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className={compact
+        ? 'mt-1 w-full inline-flex items-center justify-center gap-1 rounded-md border border-[#068136] bg-white text-[#054b26] text-[10px] font-bold px-1.5 py-1 active:scale-95 transition-all no-underline'
+        : 'inline-flex items-center gap-1.5 rounded-xl border border-[#068136] bg-white text-[#054b26] text-xs font-bold px-3 py-2 shadow-xs hover:bg-[#f0f7f2] active:scale-95 transition-all no-underline'}
+      aria-label={`Agendar la mesa de ${exam.subjectName} en Google Calendar`}
+    >
+      <CalendarPlus className={compact ? 'w-3 h-3' : 'w-4 h-4'} aria-hidden /> {compact ? 'Agendar' : 'Agendar en Google Calendar'}
+    </a>
+  );
+};
 
 /** Botón "🚌 ¿Cómo llego?" de cada mesa (integración con los colectivos) */
 const ComoLlegoBtn: React.FC<{ exam: ExamDate; onComoLlego?: (exam: ExamDate) => void; compact?: boolean }> = ({ exam, onComoLlego, compact }) => {
@@ -52,7 +74,8 @@ const ComoLlegoBtn: React.FC<{ exam: ExamDate; onComoLlego?: (exam: ExamDate) =>
 export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
   evaluations,
   onSubjectSelect,
-  onComoLlego
+  onComoLlego,
+  linkAgendar
 }) => {
   // Mes inicial: el actual si estamos en 2026 (la app es un calendario 2026); si no, febrero.
   const [selectedMonth, setSelectedMonth] = useState<number>(() => {
@@ -193,7 +216,7 @@ export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
           <strong className="text-[#7a5718]">{selectedMonthMilestonesCount}</strong> hitos / feriados
         </p>
         <p className="text-[13px] text-slate-600 mt-1">
-          Tocá <strong>¿Cómo llego?</strong> en una mesa para ver qué colectivo tomar.
+          Tocá <strong>Agendar</strong> en una mesa para sumarla a tu Google Calendar, o <strong>¿Cómo llego?</strong> para ver qué colectivo tomar.
         </p>
       </div>
       {/* Month Navigation Tab Bar */}
@@ -543,8 +566,9 @@ export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
                                 {exam.timeStr}
                               </span>
                             </div>
-                            {onComoLlego && (
-                              <div className="pt-1 flex justify-end">
+                            {(onComoLlego || linkAgendar) && (
+                              <div className="pt-1 flex flex-wrap justify-end gap-2">
+                                <AgendarBtn exam={exam} linkAgendar={linkAgendar} />
                                 <ComoLlegoBtn exam={exam} onComoLlego={onComoLlego} />
                               </div>
                             )}
@@ -691,6 +715,7 @@ export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
                               <span>{exam.timeStr}</span>
                             </div>
                             <ComoLlegoBtn exam={exam} onComoLlego={onComoLlego} compact />
+                            <AgendarBtn exam={exam} linkAgendar={linkAgendar} compact />
                           </div>
                         );
                       })}
@@ -818,6 +843,7 @@ export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
                               Faltan correlativas
                             </span>
                           )}
+                          <AgendarBtn exam={exam} linkAgendar={linkAgendar} />
                           <ComoLlegoBtn exam={exam} onComoLlego={onComoLlego} />
                         </div>
                       </div>

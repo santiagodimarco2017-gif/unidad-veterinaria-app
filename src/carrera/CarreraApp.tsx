@@ -17,7 +17,10 @@ import { AcademicReportModal } from './components/AcademicReportModal';
 import { SubjectDetailModal } from './components/SubjectDetailModal';
 import { STORAGE_KEY } from './proximaMesa';
 import { useNav } from '../state/Nav';
-import { parsearHoraMesa } from '../lib/comoLlego';
+import { useApp } from '../state/AppState';
+import { opcionesParaLlegar, parsearHoraMesa } from '../lib/comoLlego';
+import { urlGoogleCalendar } from '../lib/googleCalendar';
+import { EMPRESAS } from '../data';
 import {
   Clock,
   BookOpen,
@@ -67,6 +70,7 @@ let seccionRecordada: Seccion = 'materias';
 
 export default function CarreraApp() {
   const nav = useNav();
+  const app = useApp();
   const [progress, setProgress] = useState<StudentProgress>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -217,6 +221,30 @@ export default function CarreraApp() {
       hora: parsearHoraMesa(exam.timeStr),
       titulo: exam.subjectName,
       subtitulo: exam.turnName,
+    });
+  };
+
+  // "Agendar en Google Calendar": evento con la mesa y, si hay, el colectivo que llega a tiempo.
+  const linkAgendar = (exam: ExamDate): string => {
+    const hora = parsearHoraMesa(exam.timeStr);
+    const lineas = [`Mesa de examen · ${exam.turnName}`];
+    if (hora) {
+      const [a, m, d] = exam.dateStr.split('-').map(Number);
+      const op = opcionesParaLlegar(app.visibles, new Date(a, m - 1, d), app.feriados, hora, 3);
+      const mejor = op.salidas.find((s) => s.servicio.id === op.mejorId);
+      if (op.modo === 'a-tiempo' && mejor) {
+        const empresa = EMPRESAS[mejor.servicio.empresa]?.nombre ?? '';
+        lineas.push(`🚌 Desde Rosario: ${empresa} de las ${mejor.servicio.sale} (llega ${mejor.servicio.llega}). Confirmá el horario en la app.`);
+      }
+    }
+    lineas.push('Agendado desde la app Unidad Veterinaria.');
+    return urlGoogleCalendar({
+      titulo: `Mesa: ${exam.subjectName}`,
+      fecha: exam.dateStr,
+      hora,
+      duracionMin: 180,
+      detalles: lineas.join('\n'),
+      lugar: 'Facultad de Ciencias Veterinarias (UNR), Casilda, Santa Fe',
     });
   };
 
@@ -601,6 +629,7 @@ export default function CarreraApp() {
             progress={progress}
             onSubjectSelect={irAMateria}
             onComoLlego={comoLlego}
+            linkAgendar={linkAgendar}
           />
         )}
 
