@@ -1,5 +1,5 @@
 // Menú de inicio: el logo de Unidad Veterinaria y las puertas de la app (colectivos, planes de
-// estudio, mapa de la facultad, guía de trámites y mails de cátedra), cada una con un dato en vivo para no tener que entrar.
+// estudio, mapa de la facultad, comedor, guía de trámites y mails de cátedra), cada una con un dato en vivo para no tener que entrar.
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { useApp } from '../state/AppState';
@@ -15,6 +15,7 @@ import { DESTINO, capitalizar, diaLargo, etiquetaDia, saludo } from '../state/ut
 import { PLAN_MODIF, PLAN_TITULO } from '../carrera/plan';
 import type { ResumenPlan } from '../carrera/resumen';
 import { MAIL_CATEDRA, MAILS_OPTATIVAS } from '../carrera/data/fcv';
+import { PRECIOS_COMEDOR, formatoPesos, horarioDelMes } from '../data/comedores';
 
 /** El Plan 2026 empieza a dictarse en marzo de este año (dato fijo para no cargar el plan en el arranque) */
 const INICIO_2026 = 2028;
@@ -42,6 +43,7 @@ export function Menu() {
   const dia = proxima ? etiquetaDia(proxima.salida, ahora) : '';
   const estado = calcularEstado({ alertas: app.alertas, feriados, hayCambios: !!app.cambios, ahora });
   const nuevos = avisosRecientes(app.alertas, ahora);
+  const comedor = horarioDelMes(ahora);
   const diasInicio = Math.max(0, Math.ceil((new Date(INICIO_2026, 2, 1).getTime() - ahora.getTime()) / 86_400_000));
 
   return (
@@ -144,6 +146,19 @@ export function Menu() {
 
           <Opcion
             i={4}
+            icono="utensils"
+            tono="dorado"
+            titulo="Comedor de la Facultad"
+            sub="Menú de la semana, horarios y precios"
+            onClick={() => nav.abrir('comedor')}
+          >
+            <span className="opcion__vivo">
+              {comedor ? <>De <b className="tnum">{comedor.horario}</b></> : 'Consultá el horario de verano'} · almuerzo <b className="tnum">{formatoPesos(PRECIOS_COMEDOR[0].precio)}</b>
+            </span>
+          </Opcion>
+
+          <Opcion
+            i={5}
             icono="building"
             tono="indigo"
             titulo="Guía de trámites"
@@ -155,7 +170,7 @@ export function Menu() {
           </Opcion>
 
           <Opcion
-            i={5}
+            i={6}
             icono="mail"
             tono="azul"
             titulo="Mail de la cátedra"
