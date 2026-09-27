@@ -421,7 +421,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
       const groundY = CANVAS_HEIGHT - 35;
       ctx.fillStyle = difficulty === 'extreme' ? '#4c0519' : '#006030';
       ctx.fillRect(0, groundY, CANVAS_WIDTH, 35);
-      ctx.fillStyle = difficulty === 'extreme' ? '#9f1239' : '#068136';
+      ctx.fillStyle = difficulty === 'extreme' ? '#9f1239' : '#0d4a2c';
       ctx.fillRect(0, groundY, CANVAS_WIDTH, 8);
 
       if (gameState === 'PLAYING') {
@@ -544,7 +544,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
       // Draw Pipes
       pipes.current.forEach((p) => {
         const pipeWidth = 50;
-        const pipeColor = difficulty === 'extreme' ? '#be123c' : '#068136';
+        const pipeColor = difficulty === 'extreme' ? '#be123c' : '#0d4a2c';
         const pipeBorder = difficulty === 'extreme' ? '#881337' : '#004d25';
 
         // Top Pipe
@@ -591,7 +591,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
         // Fallback circle
         ctx.beginPath();
         ctx.arc(0, 0, BIRD_RADIUS, 0, Math.PI * 2);
-        ctx.fillStyle = '#068136';
+        ctx.fillStyle = '#0d4a2c';
         ctx.fill();
         ctx.lineWidth = 2;
         ctx.strokeStyle = '#FFFFFF';
@@ -624,7 +624,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
       <div className="bg-white sm:rounded-3xl overflow-y-auto overflow-x-hidden w-full sm:max-w-sm h-full sm:h-auto sm:max-h-full shadow-2xl sm:border border-emerald-500/30 flex flex-col items-center relative">
         
         {/* Header Bar */}
-        <div className="w-full bg-[#068136] text-white px-3.5 py-2.5 flex items-center justify-between border-b border-emerald-600">
+        <div className="w-full bg-[#0d4a2c] text-white px-3.5 py-2.5 flex items-center justify-between border-b border-emerald-600">
           <div className="flex items-center gap-2">
             <UnidadVeterinariaEmblem className="w-6 h-6 shrink-0" />
             <div>
@@ -688,7 +688,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
             <div className="w-full bg-emerald-50 px-3.5 py-2 flex items-center justify-between text-xs font-bold text-emerald-950 border-b border-emerald-200/60">
               <div className="flex items-center gap-1.5">
                 <span className="text-slate-500">Puntaje:</span>
-                <span className="text-base font-black font-mono text-[#068136]">{score}</span>
+                <span className="text-base font-black font-mono text-[#0d4a2c]">{score}</span>
               </div>
 
               <div className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-[11px] ${currentConfig.color}`}>
@@ -809,7 +809,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
                       e.stopPropagation();
                       jump();
                     }}
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-[#068136] text-white font-extrabold text-xs shadow-lg hover:bg-emerald-600 active:scale-95 transition-all border border-emerald-400/30"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-[#0d4a2c] text-white font-extrabold text-xs shadow-lg hover:bg-emerald-600 active:scale-95 transition-all border border-emerald-400/30"
                   >
                     <Play className="w-4 h-4 fill-current" />
                     ¡Jugar ({currentConfig.name})!
@@ -825,7 +825,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
                       <span className="text-xs font-extrabold uppercase text-rose-600 tracking-wider">
                         ¡Game Over!
                       </span>
-                      <p className="text-3xl font-black font-mono text-[#068136] mt-0.5">
+                      <p className="text-3xl font-black font-mono text-[#0d4a2c] mt-0.5">
                         {score} <span className="text-xs text-slate-500 font-sans">pts</span>
                       </p>
                       <p className="text-[11px] text-slate-500 font-medium">
@@ -918,7 +918,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
                           e.stopPropagation();
                           jump();
                         }}
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-[#068136] text-white font-extrabold text-xs shadow-md hover:bg-emerald-600 transition-all active:scale-95"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-[#0d4a2c] text-white font-extrabold text-xs shadow-md hover:bg-emerald-600 transition-all active:scale-95"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         Reintentar
@@ -1028,7 +1028,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
                   </p>
                   <button
                     onClick={() => setActiveModalTab('game')}
-                    className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#068136] text-white font-extrabold text-xs shadow-xs hover:bg-emerald-600 transition-all"
+                    className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0d4a2c] text-white font-extrabold text-xs shadow-xs hover:bg-emerald-600 transition-all"
                   >
                     <Gamepad2 className="w-3.5 h-3.5" />
                     ¡Jugar Ahora!
@@ -1084,7 +1084,7 @@ export const FlappyUnidadModal: React.FC<FlappyUnidadModalProps> = ({ isOpen, on
 
                       {/* Score */}
                       <div className="text-right shrink-0">
-                        <span className="text-base font-black font-mono text-[#068136] block">
+                        <span className="text-base font-black font-mono text-[#0d4a2c] block">
                           {entry.score} <span className="text-[10px] font-sans text-slate-400">pts</span>
                         </span>
                       </div>

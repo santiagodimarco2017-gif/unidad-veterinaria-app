@@ -2,34 +2,36 @@
 
 :root {
   /*
-    Marca Unidad Veterinaria: verde del logo #068136 + dorado cálido #b98b3e (igual que Carrera).
-    Contraste AA verificado: blanco sobre #068136 = 5.0:1; --text-3 sobre --bg ≥ 5:1;
-    el dorado se usa para íconos/decoración, y como texto sólo en su versión oscura (--gold-ink).
+    Marca Unidad Veterinaria: verde inglés #0d4a2c (más sobrio que el verde del logo #0d4a2c,
+    que queda sólo en el logo original) + dorado cálido #b98b3e.
+    Contraste AA verificado: blanco sobre #0d4a2c = 10.3:1, sobre #145c38 = 8:1;
+    --text-3 sobre --bg ≥ 5:1; el dorado se usa para íconos/decoración, y como texto sólo en
+    su versión oscura (--gold-ink).
   */
-  --brand: #068136;
-  --brand-deep: #04532a;
-  --accent: #068136;
-  --accent-deep: #04532a;
+  --brand: #0d4a2c;
+  --brand-deep: #07301c;
+  --accent: #145c38;
+  --accent-deep: #07301c;
   --accent-2: #b98b3e;
-  --accent-soft: rgba(6, 129, 54, 0.1);
+  --accent-soft: rgba(20, 92, 56, 0.1);
   --accent-ink: #ffffff;
   --gold: #b98b3e;
   --gold-ink: #7a5718;
   --gold-soft: rgba(185, 139, 62, 0.16);
-  --hero-a: #068136;
-  --hero-b: #03491f;
+  --hero-a: #145c38;
+  --hero-b: #062b19;
 
-  --bg: #f3f6f3;
+  --bg: #f3f5f1;
   --surface: #ffffff;
-  --surface-2: #e8eee9;
-  --surface-3: #d8e2da;
-  --elev: 0 0 0 1px rgba(15, 40, 24, 0.07), 0 2px 8px -4px rgba(15, 40, 24, 0.12);
-  --elev-2: 0 18px 50px -18px rgba(15, 40, 24, 0.35);
-  --text: #0f1f16;
-  --text-2: #3d4d43;
-  --text-3: #5b6960;
-  --line: rgba(15, 31, 22, 0.08);
-  --line-2: rgba(15, 31, 22, 0.15);
+  --surface-2: #e6ece6;
+  --surface-3: #d4dfd6;
+  --elev: 0 0 0 1px rgba(10, 40, 24, 0.07), 0 2px 8px -4px rgba(10, 40, 24, 0.12);
+  --elev-2: 0 18px 50px -18px rgba(10, 40, 24, 0.35);
+  --text: #0c1d14;
+  --text-2: #3a4b41;
+  --text-3: #58675e;
+  --line: rgba(12, 29, 20, 0.08);
+  --line-2: rgba(12, 29, 20, 0.15);
   --tabbar-bg: #ffffff;
 
   --danger: #c62f33;
@@ -38,17 +40,17 @@
   --warn-soft: rgba(233, 147, 15, 0.16);
   --info: #2159c4;
   --info-soft: rgba(33, 89, 196, 0.1);
-  --ok: #068136;
-  --ok-soft: rgba(6, 129, 54, 0.1);
+  --ok: #145c38;
+  --ok-soft: rgba(20, 92, 56, 0.1);
   --neutral-soft: rgba(91, 105, 96, 0.14);
 
   /* Colores de íconos de listas (sólo íconos sobre fondo de color, siempre con texto al lado) */
-  --c-teal: #0b7a5e;
+  --c-teal: #1d6b5a;
   --c-indigo: #3b4db8;
   --c-amber: #b98b3e;
   --c-blue: #2159c4;
   --c-red: #c62f33;
-  --c-green: #068136;
+  --c-green: #145c38;
   --c-gray: #5f6b64;
 
   --radius: 16px;
@@ -79,25 +81,25 @@
 }
 
 /* Oscuro: superficies verdosas; el verde de acento se aclara para leerse sobre fondo oscuro
-   (#3cc47a sobre #0b1a12 = 8:1) y los botones primarios llevan texto oscuro. */
+   (#6cc293 sobre #08140e = 8.8:1) y los botones primarios llevan texto oscuro. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --brand: #0c7a3a;
-    --brand-deep: #0a5a2b;
-    --accent: #3cc47a;
-    --accent-deep: #0a5a2b;
+    --brand: #124a2e;
+    --brand-deep: #0a3320;
+    --accent: #6cc293;
+    --accent-deep: #0a3320;
     --accent-2: #d9ad62;
-    --accent-soft: rgba(60, 196, 122, 0.15);
-    --accent-ink: #04160c;
+    --accent-soft: rgba(108, 194, 147, 0.15);
+    --accent-ink: #04140b;
     --gold: #d9ad62;
     --gold-ink: #e3bd7a;
     --gold-soft: rgba(217, 173, 98, 0.16);
-    --hero-a: #0c6b33;
-    --hero-b: #073d1e;
-    --bg: #0b1a12;
-    --surface: #11241a;
-    --surface-2: #183024;
-    --surface-3: #22402f;
+    --hero-a: #155436;
+    --hero-b: #06241a;
+    --bg: #08140e;
+    --surface: #0e1f17;
+    --surface-2: #152a20;
+    --surface-3: #1f3a2c;
     --elev: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
     --elev-2: 0 24px 60px -20px rgba(0, 0, 0, 0.8);
     --text: #eaf3ec;
@@ -105,37 +107,37 @@
     --text-3: #93a99b;
     --line: rgba(255, 255, 255, 0.07);
     --line-2: rgba(255, 255, 255, 0.14);
-    --tabbar-bg: #0f2218;
+    --tabbar-bg: #0c1c14;
     --danger: #ff6b6e;
     --danger-soft: rgba(255, 107, 110, 0.14);
     --warn: #f2b54c;
     --warn-soft: rgba(242, 181, 76, 0.14);
     --info: #7fa9ff;
     --info-soft: rgba(127, 169, 255, 0.14);
-    --ok: #3cc47a;
-    --ok-soft: rgba(60, 196, 122, 0.14);
+    --ok: #6cc293;
+    --ok-soft: rgba(108, 194, 147, 0.14);
     --c-gray: #5d7065;
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --brand: #0c7a3a;
-  --brand-deep: #0a5a2b;
-  --accent: #3cc47a;
-  --accent-deep: #0a5a2b;
+  --brand: #124a2e;
+  --brand-deep: #0a3320;
+  --accent: #6cc293;
+  --accent-deep: #0a3320;
   --accent-2: #d9ad62;
-  --accent-soft: rgba(60, 196, 122, 0.15);
-  --accent-ink: #04160c;
+  --accent-soft: rgba(108, 194, 147, 0.15);
+  --accent-ink: #04140b;
   --gold: #d9ad62;
   --gold-ink: #e3bd7a;
   --gold-soft: rgba(217, 173, 98, 0.16);
-  --hero-a: #0c6b33;
-  --hero-b: #073d1e;
-  --bg: #0b1a12;
-  --surface: #11241a;
-  --surface-2: #183024;
-  --surface-3: #22402f;
+  --hero-a: #155436;
+  --hero-b: #06241a;
+  --bg: #08140e;
+  --surface: #0e1f17;
+  --surface-2: #152a20;
+  --surface-3: #1f3a2c;
   --elev: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
   --elev-2: 0 24px 60px -20px rgba(0, 0, 0, 0.8);
   --text: #eaf3ec;
@@ -143,15 +145,15 @@
   --text-3: #93a99b;
   --line: rgba(255, 255, 255, 0.07);
   --line-2: rgba(255, 255, 255, 0.14);
-  --tabbar-bg: #0f2218;
+  --tabbar-bg: #0c1c14;
   --danger: #ff6b6e;
   --danger-soft: rgba(255, 107, 110, 0.14);
   --warn: #f2b54c;
   --warn-soft: rgba(242, 181, 76, 0.14);
   --info: #7fa9ff;
   --info-soft: rgba(127, 169, 255, 0.14);
-  --ok: #3cc47a;
-  --ok-soft: rgba(60, 196, 122, 0.14);
+  --ok: #6cc293;
+  --ok-soft: rgba(108, 194, 147, 0.14);
   --c-gray: #5d7065;
   color-scheme: dark;
 }

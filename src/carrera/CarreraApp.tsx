@@ -21,6 +21,7 @@ import { useApp } from '../state/AppState';
 import { opcionesParaLlegar, parsearHoraMesa } from '../lib/comoLlego';
 import { urlGoogleCalendar } from '../lib/googleCalendar';
 import { EMPRESAS } from '../data';
+import { MarcaDeAgua } from '../components/AppLogo';
 import {
   Clock,
   BookOpen,
@@ -300,7 +301,7 @@ export default function CarreraApp() {
 
   const pill = (activo: boolean) =>
     `px-3.5 py-2 rounded-full font-bold transition-all text-[13px] whitespace-nowrap ${
-      activo ? 'bg-[#068136] text-white shadow-xs' : 'bg-white text-slate-700 border border-slate-200'
+      activo ? 'bg-[#0d4a2c] text-white shadow-xs' : 'bg-white text-slate-700 border border-slate-200'
     }`;
 
   return (
@@ -319,7 +320,7 @@ export default function CarreraApp() {
                 aria-current={on ? 'page' : undefined}
                 className={`min-h-[52px] inline-flex flex-col items-center justify-center gap-0.5 px-1 rounded-2xl text-[13px] font-bold transition-all ${
                   on
-                    ? 'bg-[#068136] text-white shadow-sm'
+                    ? 'bg-[#0d4a2c] text-white shadow-sm'
                     : 'bg-white text-slate-700 border border-slate-200'
                 }`}
               >
@@ -336,7 +337,8 @@ export default function CarreraApp() {
         {seccion === 'materias' && (
           <>
             {/* Tarjeta de avance (compacta) */}
-            <header className="bg-[#068136] text-white rounded-3xl p-5 shadow-md relative overflow-hidden print:shadow-none print:bg-emerald-800">
+            <header className="bg-[#0d4a2c] text-white rounded-3xl p-5 shadow-md relative overflow-hidden isolate print:shadow-none print:bg-emerald-800">
+              <MarcaDeAgua className="carrera-marca print:hidden" />
               <div className="flex items-center gap-4">
                 <div className="relative w-20 h-20 shrink-0 flex items-center justify-center">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36" aria-hidden>
@@ -386,7 +388,7 @@ export default function CarreraApp() {
                 aria-pressed={activeTab === 'cursar' && activeFilter === 'puedo_cursar'}
                 className={`min-h-[56px] py-3 px-3 rounded-2xl text-sm font-bold transition-all flex items-center justify-center gap-1.5 text-center leading-tight ${
                   activeTab === 'cursar' && activeFilter === 'puedo_cursar'
-                    ? 'bg-[#068136] text-white shadow-md'
+                    ? 'bg-[#0d4a2c] text-white shadow-md'
                     : 'bg-white text-slate-800 border border-slate-200'
                 }`}
               >
@@ -403,7 +405,7 @@ export default function CarreraApp() {
                 aria-pressed={activeTab === 'rendir' && activeFilter === 'puedo_rendir'}
                 className={`min-h-[56px] py-3 px-3 rounded-2xl text-sm font-bold transition-all flex items-center justify-center gap-1.5 text-center leading-tight ${
                   activeTab === 'rendir' && activeFilter === 'puedo_rendir'
-                    ? 'bg-[#068136] text-white shadow-md'
+                    ? 'bg-[#0d4a2c] text-white shadow-md'
                     : 'bg-white text-slate-800 border border-slate-200'
                 }`}
               >
@@ -422,7 +424,7 @@ export default function CarreraApp() {
                   aria-label="Buscar materia"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-5 pr-12 py-3.5 bg-white border border-slate-200 rounded-2xl text-[15px] text-slate-800 placeholder-slate-500 shadow-xs focus:outline-none focus:ring-2 focus:ring-[#068136]"
+                  className="w-full pl-5 pr-12 py-3.5 bg-white border border-slate-200 rounded-2xl text-[15px] text-slate-800 placeholder-slate-500 shadow-xs focus:outline-none focus:ring-2 focus:ring-[#0d4a2c]"
                 />
                 {searchQuery ? (
                   <button
@@ -813,7 +815,7 @@ function ModoSwitch({ modo, setModo }: { modo: ViewMode; setModo: (m: ViewMode) 
         aria-checked={modo === 'cursar'}
         onClick={() => setModo('cursar')}
         className={`flex-1 min-h-[44px] px-3 rounded-xl text-sm font-bold transition-all ${
-          modo === 'cursar' ? 'bg-[#068136] text-white shadow-xs' : 'text-slate-700'
+          modo === 'cursar' ? 'bg-[#0d4a2c] text-white shadow-xs' : 'text-slate-700'
         }`}
       >
         Para cursar
@@ -824,7 +826,7 @@ function ModoSwitch({ modo, setModo }: { modo: ViewMode; setModo: (m: ViewMode) 
         aria-checked={modo === 'rendir'}
         onClick={() => setModo('rendir')}
         className={`flex-1 min-h-[44px] px-3 rounded-xl text-sm font-bold transition-all ${
-          modo === 'rendir' ? 'bg-[#068136] text-white shadow-xs' : 'text-slate-700'
+          modo === 'rendir' ? 'bg-[#0d4a2c] text-white shadow-xs' : 'text-slate-700'
         }`}
       >
         Para rendir

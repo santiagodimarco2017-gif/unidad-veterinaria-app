@@ -5,6 +5,7 @@ import { formatearDuracion } from '../lib/schedule';
 import { EmpresaChip, nombreEmpresa } from './EmpresaChip';
 import { Icon, iconoClima } from './Icon';
 import { Skeleton } from './controles';
+import { MarcaDeAgua } from './AppLogo';
 import { etiquetaDia, hhmm } from '../state/util';
 
 function partesEspera(min: number): { valor: string; unidad: string } {
@@ -27,6 +28,7 @@ export function HeroCard({ salida, ahora, onClick, favorito, clima, destino }: {
   if (!salida) {
     return (
       <div className="hero hero--vacio">
+        <MarcaDeAgua className="hero__marca" />
         <Icon name="moon" size={30} />
         <p className="hero__vacio-t">No hay más colectivos por ahora</p>
         <p className="hero__vacio-s">No encontramos salidas en los próximos días. Mirá Horarios o los avisos en Más.</p>
@@ -47,6 +49,7 @@ export function HeroCard({ salida, ahora, onClick, favorito, clima, destino }: {
       onClick={onClick}
       aria-label={`Próximo colectivo: sale ${dia.toLowerCase()} a las ${s.sale}, en ${formatearDuracion(min)}. Llega ${hhmm(salida.llegada)}. ${nombreEmpresa(s.empresa)}. Tocá para ver el detalle.`}
     >
+      <MarcaDeAgua className="hero__marca" />
       <span className="hero__top">
         <span className="hero__kicker">
           <span className="live-dot" aria-hidden />
