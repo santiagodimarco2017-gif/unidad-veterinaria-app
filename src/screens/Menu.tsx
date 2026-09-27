@@ -19,6 +19,12 @@ import { MAIL_CATEDRA, MAILS_OPTATIVAS } from '../carrera/data/fcv';
 /** El Plan 2026 empieza a dictarse en marzo de este año (dato fijo para no cargar el plan en el arranque) */
 const INICIO_2026 = 2028;
 
+/** Redes de Unidad Veterinaria */
+const REDES = [
+  { clave: 'wa', icono: 'whatsapp', titulo: 'Canal de WhatsApp', sub: 'Avisos al toque en tu celu', url: 'https://www.whatsapp.com/channel/0029VbCXgFP84OmJAifg1A2l' },
+  { clave: 'ig', icono: 'instagram', titulo: 'Instagram', sub: '@unidadvet', url: 'https://www.instagram.com/unidadvet' },
+] as const;
+
 const CANT_MAILS = Object.keys(MAIL_CATEDRA).length + MAILS_OPTATIVAS.length;
 
 export function Menu() {
@@ -143,6 +149,27 @@ export function Menu() {
           <Atajo i={1} icono="star" titulo="Favoritos" onClick={() => nav.irA('favoritos')} />
           <Atajo i={2} icono="car" titulo="Remises" onClick={() => nav.abrir('remises')} />
           <Atajo i={3} icono="settings" titulo="Ajustes" onClick={() => nav.abrir('ajustes')} />
+        </div>
+
+        <h2 className="section__h menu-h">Seguinos</h2>
+        <div className="menu-redes">
+          {REDES.map((r, i) => (
+            <a
+              key={r.clave}
+              className={`red red--${r.clave}`}
+              href={r.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ '--i': i } as CSSProperties}
+            >
+              <span className="red__icono"><Icon name={r.icono} size={24} /></span>
+              <span className="red__txt">
+                <b>{r.titulo}</b>
+                <small>{r.sub}</small>
+              </span>
+              <Icon name="external" size={16} className="red__ir" />
+            </a>
+          ))}
         </div>
 
         {plan?.evento && (

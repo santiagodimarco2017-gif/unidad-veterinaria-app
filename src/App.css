@@ -2143,3 +2143,37 @@ i.p26-celda--yo { background: transparent; box-shadow: inset 0 0 0 2.5px var(--t
 @keyframes p26-crece { from { width: 0; } }
 @keyframes p26-crece-x { from { transform: scaleX(0); } }
 .p26-seg .segmented__opt { padding: 0 2px; font-size: 0.8rem; letter-spacing: -0.01em; }
+
+/* ============ Redes (menú) ============ */
+.menu-redes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.red {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 20px;
+  color: #fff;
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: var(--elev);
+  animation: pop 0.35s var(--ease-spring) both;
+  animation-delay: calc(0.45s + var(--i, 0) * 0.06s);
+  transition: transform 0.15s var(--ease);
+}
+.red:active { transform: scale(0.96); }
+.red--wa { background: linear-gradient(145deg, #25d366, #128c4a); }
+.red--ig { background: linear-gradient(145deg, #feda75 -10%, #fa7e1e 20%, #d62976 55%, #962fbf 80%, #4f5bd5 110%); }
+.red__icono {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.22);
+}
+.red__txt { display: flex; flex-direction: column; gap: 2px; line-height: 1.2; }
+.red__txt b { font-size: 0.98rem; }
+.red__txt small { font-size: 0.8rem; opacity: 0.9; }
+.red__ir { position: absolute; top: 14px; right: 14px; opacity: 0.8; }
+@media (prefers-reduced-motion: reduce) { .red { animation: none; } }
