@@ -1,15 +1,15 @@
 import {
   ALTA_COMEDOR, COMEDORES_INFO_URL, COMEDORES_INSTAGRAM_URL, HORARIOS_COMEDOR, MORA_ALTA_URL, MORA_URL,
-  PRECIOS_COMEDOR, SEDES_COMEDOR, SERVICIOS_COMEDOR, formatoPesos, mapaUrl,
+  PRECIOS_COMEDOR, SERVICIOS_COMEDOR, COMEDOR_CASILDA, formatoPesos,
 } from '../data/comedores';
 import { Page } from '../components/Page';
 import { Fila, Grupo } from '../components/controles';
 import { Icon } from '../components/Icon';
 
 export function Comedor() {
-  const [casilda, ...otras] = SEDES_COMEDOR;
+  const casilda = COMEDOR_CASILDA;
   return (
-    <Page titulo="Comedor UNR">
+    <Page titulo="Comedor">
       <div className="screen">
         <p className="lead">El menú cambia todas las semanas y se ve en MORA, el sistema de reservas de la UNR, con tu DNI y clave.</p>
 
@@ -18,11 +18,11 @@ export function Comedor() {
           <Fila icono="sparkle" colorIcono="var(--c-indigo)" titulo="Novedades del comedor" subtitulo="Instagram @comedores_unr" href={COMEDORES_INSTAGRAM_URL} />
         </Grupo>
 
-        <Grupo titulo="Tu comedor en la Facultad">
-          <Fila icono="pin" colorIcono="var(--gold)" titulo={casilda.nombre} subtitulo={`${casilda.zona} · ${casilda.direccion}`} href={mapaUrl(casilda)} />
+        <Grupo titulo="Dónde queda">
+          <Fila icono="pin" colorIcono="var(--gold)" titulo={casilda.nombre} subtitulo={`${casilda.zona} · ${casilda.direccion}`} href={casilda.mapaUrl} />
         </Grupo>
 
-        <Grupo titulo="Horarios" pie="Rigen para todas las sedes.">
+        <Grupo titulo="Horarios">
           {HORARIOS_COMEDOR.map((h) => (
             <Fila key={h.periodo} icono="clock" colorIcono="var(--info)" titulo={`${h.periodo}: ${h.horario}`} subtitulo={h.detalle} chevron={false} />
           ))}
@@ -45,12 +45,6 @@ export function Comedor() {
             <Fila key={a.quien} titulo={a.quien} subtitulo={a.que} chevron={false} />
           ))}
           <Fila icono="external" colorIcono="var(--c-gray)" titulo="Crear cuenta en MORA" href={MORA_ALTA_URL} />
-        </Grupo>
-
-        <Grupo titulo="Otras sedes">
-          {otras.map((s) => (
-            <Fila key={s.id} icono="pin" colorIcono="var(--c-teal)" titulo={s.nombre} subtitulo={`${s.zona} · ${s.direccion}`} href={mapaUrl(s)} />
-          ))}
         </Grupo>
 
         <p className="nota">

@@ -35,7 +35,7 @@ export function Mas() {
         </Grupo>
 
         <Grupo titulo="Facultad">
-          <Fila icono="building" colorIcono="var(--brand-deep)" titulo="Comedor UNR" subtitulo="Menú, horarios, precios y sedes" onClick={() => nav.abrir('comedor')} />
+          <Fila icono="building" colorIcono="var(--brand-deep)" titulo="Comedor de la Facultad" subtitulo="Menú, horarios y precios en Casilda" onClick={() => nav.abrir('comedor')} />
         </Grupo>
 
         <Grupo titulo="La app">

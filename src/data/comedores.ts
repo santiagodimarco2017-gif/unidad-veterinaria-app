@@ -10,24 +10,13 @@ export const MORA_ALTA_URL = 'https://comedores-gestion.unr.edu.ar/';
 export const COMEDORES_INFO_URL = 'https://unr.edu.ar/comedores/';
 export const COMEDORES_INSTAGRAM_URL = 'https://www.instagram.com/comedores_unr/';
 
-export interface SedeComedor {
-  id: string;
-  nombre: string;
-  zona: string;
-  direccion: string;
-  /** Búsqueda para abrir en el mapa */
-  mapa: string;
-}
-
-/** Casilda primero: es la sede de la Facultad de Ciencias Veterinarias. */
-export const SEDES_COMEDOR: SedeComedor[] = [
-  { id: 'casilda', nombre: 'Comedor Casilda', zona: 'Ciencias Veterinarias', direccion: 'Ovidio Lagos y Ruta 33, Casilda', mapa: 'Facultad de Ciencias Veterinarias UNR, Casilda' },
-  { id: 'centro', nombre: 'Comedor Centro', zona: 'Área Centro', direccion: 'Córdoba 1917, Rosario', mapa: 'Córdoba 1917, Rosario' },
-  { id: 'siberia', nombre: 'Comedor Siberia', zona: 'Ciudad Universitaria', direccion: 'Berutti y Riobamba, Rosario', mapa: 'Berutti y Riobamba, Rosario' },
-  { id: 'salud', nombre: 'Comedor Salud', zona: 'Área Salud', direccion: 'Ricchieri 690 (Santa Fe y Ricchieri), Rosario', mapa: 'Ricchieri 690, Rosario' },
-  { id: 'fceia', nombre: 'Comedor FCEIA', zona: 'Exactas, Ingeniería y Agrimensura', direccion: 'Av. Pellegrini 250, Rosario', mapa: 'Av. Pellegrini 250, Rosario' },
-  { id: 'zavalla', nombre: 'Comedor Zavalla', zona: 'Ciencias Agrarias', direccion: 'Parque Villarino, Zavalla', mapa: 'Parque Villarino, Zavalla' },
-];
+/** El comedor de la Facultad de Ciencias Veterinarias. */
+export const COMEDOR_CASILDA = {
+  nombre: 'Comedor Casilda',
+  zona: 'Facultad de Ciencias Veterinarias',
+  direccion: 'Ovidio Lagos y Ruta 33, Casilda',
+  mapaUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Facultad de Ciencias Veterinarias UNR, Casilda')}`,
+};
 
 export interface FranjaHoraria {
   periodo: string;
@@ -62,12 +51,10 @@ export const SERVICIOS_COMEDOR: string[] = [
 
 export const ALTA_COMEDOR: { quien: string; que: string }[] = [
   { quien: 'Ya tenés cuenta', que: 'Entrá a MORA con tu DNI y clave para ver el menú y reservar.' },
-  { quien: 'Estudiantes', que: 'Certificado de alumno regular vigente y DNI, en cualquier comedor o en el alta de MORA.' },
+  { quien: 'Estudiantes', que: 'Certificado de alumno regular vigente y DNI, en el comedor o en el alta de MORA.' },
   { quien: 'Ingresantes 2026', que: 'Constancia de inscripción definitiva (no la preinscripción) y DNI.' },
   { quien: 'Docentes y no docentes', que: 'Recibo de sueldo y DNI.' },
 ];
 
 export const formatoPesos = (n: number): string => `$${n.toLocaleString('es-AR')}`;
 
-export const mapaUrl = (s: SedeComedor): string =>
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.mapa)}`;
