@@ -5,6 +5,7 @@ import { leerProgreso, proximaMesaRegular } from './proximaMesa';
 import { proximaInscripcionCursado } from './inscripciones';
 import { eventosVigentes } from './data/fcv';
 import type { EventoFcv } from './data/fcv';
+import { simularPase } from './pase2026';
 
 export interface ResumenPlan {
   aprobadas: number;
@@ -16,6 +17,8 @@ export interface ResumenPlan {
   novedad: string | null;
   /** Próximo evento de la facultad (fveter) */
   evento: EventoFcv | null;
+  /** Materias del Plan 2026 que tendría aprobadas (total o parcial) si se cambiara de plan */
+  pase2026: { aprobadas: number; parciales: number };
 }
 
 const fmtDia = new Intl.DateTimeFormat('es-AR', { weekday: 'long' });
@@ -62,5 +65,6 @@ export function resumenPlan(ahora: Date = new Date()): ResumenPlan {
     porcentaje: total ? Math.round((aprobadas / total) * 100) : 0,
     novedad,
     evento,
+    pase2026: (({ aprobadas, parciales }) => ({ aprobadas, parciales }))(simularPase(progreso)),
   };
 }

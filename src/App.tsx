@@ -46,6 +46,17 @@ function MailsTab() {
   );
 }
 
+// Plan de Estudios 2026 (datos del documento de la facultad), también aparte.
+const Plan2026Lazy = lazy(() => import('./screens/Plan2026').then((m) => ({ default: m.Plan2026 })));
+
+function Plan2026Pagina() {
+  return (
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando Plan 2026"><span className="spinner" /></div>}>
+      <Plan2026Lazy />
+    </Suspense>
+  );
+}
+
 const TABS: Record<Tab, () => JSX.Element> = {
   inicio: Menu,
   colectivos: Inicio,
@@ -63,6 +74,7 @@ const PAGINAS: Record<Pagina, () => JSX.Element> = {
   feriados: FeriadosAnio,
   ajustes: Ajustes,
   acerca: Acerca,
+  plan2026: Plan2026Pagina,
 };
 
 function Shell() {

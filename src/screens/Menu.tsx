@@ -16,6 +16,9 @@ import { PLAN_MODIF, PLAN_TITULO } from '../carrera/plan';
 import type { ResumenPlan } from '../carrera/resumen';
 import { MAIL_CATEDRA, MAILS_OPTATIVAS } from '../carrera/data/fcv';
 
+/** El Plan 2026 empieza a dictarse en marzo de este año (dato fijo para no cargar el plan en el arranque) */
+const INICIO_2026 = 2028;
+
 const CANT_MAILS = Object.keys(MAIL_CATEDRA).length + MAILS_OPTATIVAS.length;
 
 export function Menu() {
@@ -33,6 +36,7 @@ export function Menu() {
   const dia = proxima ? etiquetaDia(proxima.salida, ahora) : '';
   const estado = calcularEstado({ alertas: app.alertas, feriados, hayCambios: !!app.cambios, ahora });
   const nuevos = avisosRecientes(app.alertas, ahora);
+  const diasInicio = Math.max(0, Math.ceil((new Date(INICIO_2026, 2, 1).getTime() - ahora.getTime()) / 86_400_000));
 
   return (
     <div className="screen-scroll">
@@ -107,6 +111,22 @@ export function Menu() {
 
           <Opcion
             i={2}
+            icono="book"
+            tono="teal"
+            titulo="Plan de Estudios 2026"
+            etiqueta="nuevo"
+            sub={`Arranca en ${INICIO_2026} · faltan ${diasInicio.toLocaleString('es-AR')} días`}
+            onClick={() => nav.abrir('plan2026')}
+          >
+            <span className="opcion__vivo">
+              {plan && (plan.pase2026.aprobadas || plan.pase2026.parciales)
+                ? <>Con tu avance tendrías <b>{plan.pase2026.aprobadas}</b> aprobadas{plan.pase2026.parciales ? ` y ${plan.pase2026.parciales} parciales` : ''}</>
+                : 'Materias, orientaciones y cómo es el pase'}
+            </span>
+          </Opcion>
+
+          <Opcion
+            i={3}
             icono="mail"
             tono="azul"
             titulo="Mail de la cátedra"
@@ -158,7 +178,7 @@ function useResumenPlan(): ResumenPlan | null {
 function Opcion({ i, icono, tono, titulo, etiqueta, sub, onClick, extra, children }: {
   i: number;
   icono: IconName;
-  tono: 'verde' | 'dorado' | 'azul';
+  tono: 'verde' | 'dorado' | 'azul' | 'teal';
   titulo: string;
   etiqueta?: string;
   sub: string;
