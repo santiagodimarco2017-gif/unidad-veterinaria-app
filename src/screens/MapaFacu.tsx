@@ -6,6 +6,7 @@ import { Page } from '../components/Page';
 import { Icon } from '../components/Icon';
 import { Chip } from '../components/controles';
 import { haptic } from '../state/nativo';
+import { useNav } from '../state/Nav';
 import mapaSrc from '../../assets/mapa-facu.jpg';
 import { CATEGORIAS, COMO_LLEGAR, LUGARES, MAPA_ASPECTO } from '../data/mapaFacu';
 import type { Categoria, Lugar } from '../data/mapaFacu';
@@ -21,7 +22,9 @@ const normal = (t: string) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/
 const CAT_TITULO = Object.fromEntries(CATEGORIAS.map((c) => [c.id, c.titulo])) as Record<Categoria, string>;
 
 export function MapaFacu() {
-  const [sel, setSel] = useState<number | null>(null);
+  // Si se abrió desde un trámite, arranca con esa oficina marcada y centrada
+  const { mapaLugar } = useNav();
+  const [sel, setSel] = useState<number | null>(mapaLugar);
   const [cat, setCat] = useState<Categoria | null>(null);
   const [q, setQ] = useState('');
   const visor = useRef<VisorApi>(null);
@@ -41,6 +44,15 @@ export function MapaFacu() {
       && (!nq || normal(l.nombre).includes(nq) || String(l.n) === nq),
     );
   }, [q, cat]);
+
+  useEffect(() => {
+    const l = mapaLugar ? LUGARES.find((x) => x.n === mapaLugar) : undefined;
+    if (!l) return;
+    // Espera a que la página termine de entrar para medir la caja del mapa
+    const t = window.setTimeout(() => visor.current?.enfocar(l), 350);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const elegir = useCallback((l: Lugar, desdeLista: boolean) => {
     haptic();

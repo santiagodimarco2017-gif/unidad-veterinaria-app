@@ -10,7 +10,7 @@ import { TABS_COLECTIVOS } from './util';
  * de él); `carrera` es el Plan de Estudio; `mails` los mails de cátedra.
  */
 export type Tab = 'inicio' | 'colectivos' | 'horarios' | 'favoritos' | 'carrera' | 'mails' | 'mas';
-export type Pagina = 'avisos' | 'remises' | 'empresas' | 'feriados' | 'ajustes' | 'acerca' | 'plan2026' | 'mapa';
+export type Pagina = 'avisos' | 'remises' | 'empresas' | 'feriados' | 'ajustes' | 'acerca' | 'plan2026' | 'mapa' | 'tramites';
 
 /** Vista de la pestaña Horarios: lista de salidas o gráfico de frecuencia */
 export type VistaHorarios = 'lista' | 'grafico';
@@ -52,6 +52,8 @@ interface NavValor {
   detalle: DetalleAbierto | null;
   comoLlego: ComoLlegoPedido | null;
   horariosPedido: HorariosPedido | null;
+  /** Lugar del mapa a marcar al abrirlo (p. ej. la oficina de un trámite) */
+  mapaLugar: number | null;
   irA: (t: Tab) => void;
   abrir: (p: Pagina) => void;
   volver: () => void;
@@ -61,6 +63,8 @@ interface NavValor {
   cerrarComoLlego: () => void;
   /** Va a Horarios (opcionalmente en una fecha / vista / sentido local, resaltando servicios) */
   verHorarios: (p?: HorariosPedido) => void;
+  /** Abre el mapa de la facultad con un lugar marcado y centrado */
+  verEnMapa: (lugar: number) => void;
   /**
    * Registra un manejador de "atrás" (p. ej. modales de Carrera). Debe devolver true si cerró algo.
    * Devuelve la función para desregistrarlo.
@@ -84,6 +88,7 @@ export function NavProvider({ children }: { children: ReactNode }) {
   const [detalle, setDetalle] = useState<DetalleAbierto | null>(null);
   const [comoLlego, setComoLlego] = useState<ComoLlegoPedido | null>(null);
   const [horariosPedido, setHorariosPedido] = useState<HorariosPedido | null>(null);
+  const [mapaLugar, setMapaLugar] = useState<number | null>(null);
   const manejadores = useRef<(() => boolean)[]>([]);
 
   // Refs para que `atras` lea siempre el estado actual desde listeners nativos
@@ -96,7 +101,16 @@ export function NavProvider({ children }: { children: ReactNode }) {
     setHorariosPedido(null);
     setTab(t);
   }, []);
-  const abrir = useCallback((p: Pagina) => { haptic(); setPila((s) => [...s, p]); }, []);
+  const abrir = useCallback((p: Pagina) => {
+    haptic();
+    if (p === 'mapa') setMapaLugar(null);
+    setPila((s) => [...s, p]);
+  }, []);
+  const verEnMapa = useCallback((lugar: number) => {
+    haptic();
+    setMapaLugar(lugar);
+    setPila((s) => [...s, 'mapa']);
+  }, []);
   const volver = useCallback(() => setPila((s) => s.slice(0, -1)), []);
   const abrirDetalle = useCallback((servicioId: string, fecha?: string) => {
     haptic();
@@ -136,10 +150,10 @@ export function NavProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const valor = useMemo<NavValor>(() => ({
-    tab, pila, detalle, comoLlego, horariosPedido,
-    irA, abrir, volver, abrirDetalle, cerrarDetalle, abrirComoLlego, cerrarComoLlego, verHorarios, registrarAtras, atras,
-  }), [tab, pila, detalle, comoLlego, horariosPedido,
-    irA, abrir, volver, abrirDetalle, cerrarDetalle, abrirComoLlego, cerrarComoLlego, verHorarios, registrarAtras, atras]);
+    tab, pila, detalle, comoLlego, horariosPedido, mapaLugar,
+    irA, abrir, volver, abrirDetalle, cerrarDetalle, abrirComoLlego, cerrarComoLlego, verHorarios, verEnMapa, registrarAtras, atras,
+  }), [tab, pila, detalle, comoLlego, horariosPedido, mapaLugar,
+    irA, abrir, volver, abrirDetalle, cerrarDetalle, abrirComoLlego, cerrarComoLlego, verHorarios, verEnMapa, registrarAtras, atras]);
 
   return <Ctx.Provider value={valor}>{children}</Ctx.Provider>;
 }
