@@ -30,6 +30,6 @@ describe('resumenPlan', () => {
 
   it('muestra el próximo evento de la facultad vigente', () => {
     conProgreso({});
-    expect(resumenPlan(new Date(2026, 8, 27)).evento?.dateStr).toBe('2026-10-01');
+    expect(resumenPlan(new Date(2026, 8, 27)).evento?.titulo).toMatch(/Jornadas de Divulgación/);
   });
 });
