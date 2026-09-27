@@ -17,7 +17,7 @@ export function Mas() {
           <AppLogo size={56} />
           <div className="brand__txt">
             <h1 className="brand__t">Unidad Veterinaria</h1>
-            <p className="brand__s">Colectivos Casilda ⇄ Rosario y tu carrera</p>
+            <p className="brand__s">Colectivos, plan de estudio y mails de cátedra</p>
           </div>
         </header>
 

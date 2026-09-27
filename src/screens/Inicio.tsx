@@ -1,4 +1,5 @@
-// Inicio: lo esencial. Sentido → próximo colectivo → 3 siguientes → accesos grandes.
+// Colectivos: lo esencial. Sentido → próximo colectivo → 3 siguientes → accesos grandes.
+// (Se abre desde el menú de inicio o la pestaña Colectivos.)
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from '../state/AppState';
 import { useNav } from '../state/Nav';
@@ -44,7 +45,7 @@ export function Inicio() {
       <div className="screen screen--inicio">
         <header className="inicio-head">
           <div className="inicio-head__txt">
-            <p className="inicio-head__marca">Unidad Veterinaria</p>
+            <p className="inicio-head__marca">Colectivos · Casilda ⇄ Rosario</p>
             <h1 className="inicio-head__title">¿Para dónde vas?</h1>
             <p className="inicio-head__date">{diaLargo(ahora)}</p>
           </div>
@@ -112,7 +113,7 @@ export function Inicio() {
             <Tile icono="clock" titulo="Horarios" sub="Todas las salidas" onClick={() => nav.verHorarios()} />
             <Tile icono="star" titulo="Mis favoritos" sub={app.favoritos.length ? `${app.favoritos.length} guardado${app.favoritos.length > 1 ? 's' : ''}` : 'Tus viajes de siempre'} onClick={() => nav.irA('favoritos')} />
             <Tile icono="car" titulo="Remises y taxis" sub="Llamar en Casilda" onClick={() => nav.abrir('remises')} />
-            <Tile icono="graduationCap" titulo="Carrera" sub="Materias y mesas" onClick={() => nav.irA('carrera')} />
+            <Tile icono="graduationCap" titulo="Plan de Estudio" sub="Materias y mesas" onClick={() => nav.irA('carrera')} />
           </div>
         </section>
 

@@ -80,12 +80,6 @@ export interface EventoFcv {
 /** Eventos de la facultad pensados para estudiantes de grado (sin cursos de posgrado). */
 export const EVENTOS_FCV: EventoFcv[] = [
   {
-    dateStr: '2026-10-01',
-    titulo: 'Agenda de implementación del Plan de Estudios 2026',
-    detalle: 'Jornada de 9 a 12 h sobre el nuevo plan. Requiere inscripción.',
-    url: 'https://fveter.unr.edu.ar/noticia.php?id=1729',
-  },
-  {
     titulo: 'XXVI Jornadas de Divulgación Técnico-Científicas 2026',
     detalle: 'Abiertas a estudiantes. La facultad publicará el cronograma.',
     url: 'https://fveter.unr.edu.ar/noticia.php?id=1725',

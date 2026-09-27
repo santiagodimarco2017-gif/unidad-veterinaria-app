@@ -3,9 +3,14 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState } fro
 import type { ReactNode } from 'react';
 import type { Direccion } from '../lib/types';
 import { haptic } from './nativo';
+import { TABS_COLECTIVOS } from './util';
 
-export type Tab = 'inicio' | 'horarios' | 'favoritos' | 'carrera' | 'mas';
-export type Pagina = 'avisos' | 'remises' | 'empresas' | 'feriados' | 'ajustes' | 'acerca';
+/**
+ * `inicio` es el menú con el logo; `colectivos` es el feed de colectivos (Horarios y Favoritos cuelgan
+ * de él); `carrera` es el Plan de Estudio; `mails` los mails de cátedra.
+ */
+export type Tab = 'inicio' | 'colectivos' | 'horarios' | 'favoritos' | 'carrera' | 'mails' | 'mas';
+export type Pagina = 'avisos' | 'remises' | 'empresas' | 'feriados' | 'ajustes' | 'acerca' | 'plan2026' | 'mapa';
 
 /** Vista de la pestaña Horarios: lista de salidas o gráfico de frecuencia */
 export type VistaHorarios = 'lista' | 'grafico';
@@ -122,7 +127,11 @@ export function NavProvider({ children }: { children: ReactNode }) {
       if (manejadores.current[i]()) return true;
     }
     if (e.pila.length) { setPila((s) => s.slice(0, -1)); return true; }
-    if (e.tab !== 'inicio') { setHorariosPedido(null); setTab('inicio'); return true; }
+    if (e.tab !== 'inicio') {
+      setHorariosPedido(null);
+      setTab(e.tab !== 'colectivos' && TABS_COLECTIVOS.includes(e.tab) ? 'colectivos' : 'inicio');
+      return true;
+    }
     return false;
   }, []);
 

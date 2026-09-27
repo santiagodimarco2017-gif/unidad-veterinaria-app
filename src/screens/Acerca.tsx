@@ -44,7 +44,7 @@ export function Acerca() {
         <div className="credits">
           <span className="credits__k">Créditos</span>
           <p className="credits__t">Desarrollado por Unidad Veterinaria</p>
-          <p className="muted">Incluye Correlativas FCV-UNR (Plan 2009 mod. 2026) de Unidad Veterinaria: plan de estudios, correlativas y calendario académico de Medicina Veterinaria.</p>
+          <p className="muted">Incluye el Plan de Estudio 2009 (modif. 2026) de Medicina Veterinaria FCV-UNR: materias, correlativas, mails de cátedra, correlativas y calendario académico de Medicina Veterinaria.</p>
           <p className="muted">Hecho con cariño para quienes viajan todos los días entre Casilda y Rosario.</p>
         </div>
       </div>
