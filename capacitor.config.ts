@@ -4,12 +4,15 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const ACCENT_GREEN = '#068136';
 
 const config: CapacitorConfig = {
-  appId: 'ar.unidadveterinaria.casildabus',
+  appId: 'ar.unidadveterinaria.app',
   appName: 'Unidad Veterinaria',
   webDir: 'dist',
   plugins: {
     CapacitorHttp: {
       enabled: true,
+    },
+    PushNotifications: {
+      presentationOptions: ['badge', 'sound', 'alert'],
     },
     LocalNotifications: {
       smallIcon: 'ic_stat_bus',

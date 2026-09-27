@@ -286,11 +286,11 @@ export function generarICS(salida: Salida, empresaNombre?: string, ahora: Date =
   const lineas = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Unidad Veterinaria//Casilda Bus//ES',
+    'PRODID:-//Unidad Veterinaria//Colectivos//ES',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    `UID:${s.id}-${fechaISO(salida.salida).replace(/-/g, '')}@casildabus`,
+    `UID:${s.id}-${fechaISO(salida.salida).replace(/-/g, '')}@unidadveterinaria`,
     `DTSTAMP:${icsUTC(ahora)}`,
     `DTSTART:${icsLocal(salida.salida)}`,
     `DTEND:${icsLocal(salida.llegada)}`,

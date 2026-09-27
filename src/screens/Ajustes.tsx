@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import type { Ajustes as TAjustes, Empresa, EmpresaId } from '../lib/types';
 import { EMPRESAS } from '../data';
 import { pedirPermisoNotificaciones } from '../services/notifications';
+import { avisosInstagramActivos, cambiarAvisosInstagram, type ResultadoAvisos } from '../services/avisosInstagram';
 import { useApp } from '../state/AppState';
 import { Page } from '../components/Page';
 import { Fila, Grupo, Segmented, Toggle } from '../components/controles';
@@ -16,6 +18,25 @@ export function Ajustes() {
       const ok = await pedirPermisoNotificaciones().catch(() => false);
       if (!ok) app.avisar('Permiso de notificaciones denegado. Activalo desde los ajustes del teléfono.');
     }
+  };
+
+  const [instagram, setInstagram] = useState(false);
+  useEffect(() => { void avisosInstagramActivos().then(setInstagram); }, []);
+  const MENSAJES_INSTAGRAM: Record<Exclude<ResultadoAvisos, 'ok'>, string> = {
+    'denegado': 'Permiso de notificaciones denegado. Activalo desde los ajustes del teléfono.',
+    'no-soportado': 'Este navegador no recibe avisos. En iPhone, agregá la web a la pantalla de inicio.',
+    'sin-configurar': 'Los avisos de Instagram todavía no están disponibles.',
+    'error': 'No pudimos activar los avisos. Probá de nuevo más tarde.',
+  };
+  const alternarInstagram = async (v: boolean) => {
+    setInstagram(v);
+    const r = await cambiarAvisosInstagram(v);
+    if (r === 'ok') {
+      if (v) app.avisar('Listo: te avisamos cuando Unidad Veterinaria publique');
+      return;
+    }
+    setInstagram(!v);
+    app.avisar(MENSAJES_INSTAGRAM[r]);
   };
 
   const setDir = (v: TAjustes['direccionPorDefecto']) => {
@@ -83,6 +104,11 @@ export function Ajustes() {
             derecha={<Toggle etiqueta="Avisos de feriados" on={ajustes.notifFeriados} onChange={(v) => notif('notifFeriados', v)} />} />
           <Fila icono="calendar" colorIcono="var(--c-teal)" titulo="Inscripciones en Guaraní" subtitulo="Cursado y mesas, según tus correlativas" chevron={false}
             derecha={<Toggle etiqueta="Avisos de inscripción" on={ajustes.notifInscripciones} onChange={(v) => notif('notifInscripciones', v)} />} />
+        </Grupo>
+
+        <Grupo titulo="Unidad Veterinaria en Instagram" pie="Charlas, eventos y deportes que publica @unidadvet. Si el posteo trae un link (inscripción, transmisión), tocar el aviso lo abre.">
+          <Fila icono="bell" colorIcono="var(--c-green)" titulo="Publicaciones nuevas" chevron={false}
+            derecha={<Toggle etiqueta="Avisos de publicaciones de Instagram" on={instagram} onChange={(v) => void alternarInstagram(v)} />} />
         </Grupo>
 
         <Grupo titulo="Empresas visibles" pie="Las empresas ocultas no aparecen en Inicio ni en Horarios.">

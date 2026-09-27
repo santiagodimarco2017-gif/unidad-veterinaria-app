@@ -6,6 +6,7 @@ import { AppStateProvider, useApp } from './state/AppState';
 import { NavProvider, useNav } from './state/Nav';
 import type { Pagina, Tab } from './state/Nav';
 import { esNativo } from './services/plataforma';
+import { escucharAvisosInstagram } from './services/avisosInstagram';
 import { TabBar } from './components/TabBar';
 import { ErrorSeccion } from './components/ErrorSeccion';
 import { Menu } from './screens/Menu';
@@ -119,6 +120,9 @@ function Shell() {
     return () => { handles.forEach((h) => h.then((x) => x.remove()).catch(() => {})); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav.atras, app.sincronizarEnFondo]);
+
+  // Avisos de Instagram: mostrar los que llegan con la app abierta y abrir su link al tocarlos.
+  useEffect(() => escucharAvisosInstagram(), []);
 
   const TabActual = TABS[nav.tab];
 
