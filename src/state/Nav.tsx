@@ -5,7 +5,7 @@ import type { Direccion } from '../lib/types';
 import { haptic } from './nativo';
 
 export type Tab = 'inicio' | 'horarios' | 'favoritos' | 'carrera' | 'mas';
-export type Pagina = 'avisos' | 'remises' | 'empresas' | 'feriados' | 'ajustes' | 'acerca';
+export type Pagina = 'avisos' | 'remises' | 'empresas' | 'feriados' | 'ajustes' | 'acerca' | 'comedor';
 
 /** Vista de la pestaña Horarios: lista de salidas o gráfico de frecuencia */
 export type VistaHorarios = 'lista' | 'grafico';

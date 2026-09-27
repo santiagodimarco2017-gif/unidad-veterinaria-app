@@ -20,6 +20,7 @@ import { Empresas } from './screens/Empresas';
 import { FeriadosAnio } from './screens/FeriadosAnio';
 import { Ajustes } from './screens/Ajustes';
 import { Acerca } from './screens/Acerca';
+import { Comedor } from './screens/Comedor';
 import { Onboarding } from './screens/Onboarding';
 import './App.css';
 
@@ -49,6 +50,7 @@ const PAGINAS: Record<Pagina, () => JSX.Element> = {
   feriados: FeriadosAnio,
   ajustes: Ajustes,
   acerca: Acerca,
+  comedor: Comedor,
 };
 
 function Shell() {
