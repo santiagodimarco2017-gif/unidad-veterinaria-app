@@ -39,6 +39,37 @@ terminal y los avisos de paro, que el navegador no puede consultar directo por C
 URLs fijas de la app. La web se puede instalar en el celular (PWA): en iPhone, Safari → Compartir →
 "Agregar a pantalla de inicio".
 
+### Avisos de Instagram (@unidadvet)
+
+Cuando Unidad Veterinaria publica en el feed de Instagram, llega una notificación a la app y a la web
+(quien la active en **Más → Ajustes**). Si la descripción trae un link (inscripción a una charla, una
+transmisión), tocar el aviso abre ese link; si no, abre el posteo.
+
+Cómo funciona: `.github/workflows/instagram-avisos.yml` llama cada 15 min a `/api/instagram-avisos`, que lee
+los últimos posteos con la API oficial de Instagram, detecta los nuevos y los manda por Firebase Cloud
+Messaging. La app se suscribe con `/api/push-registro`. El estado (último posteo avisado y token renovado)
+queda en Firestore, en `avisos_instagram/estado`. La primera corrida no avisa nada: solo marca lo que ya estaba.
+
+Configuración (una sola vez):
+
+1. **Instagram**: la cuenta @unidadvet tiene que ser *profesional* (Empresa o Creador de contenido):
+   Instagram → Configuración → Tipo de cuenta. En [developers.facebook.com](https://developers.facebook.com/apps)
+   crear una app → caso de uso "Administrar mensajes y contenido en Instagram" → *API setup with Instagram login* →
+   agregar la cuenta @unidadvet y **generar token**. Ese token va en Vercel como `IG_ACCESS_TOKEN`
+   (se renueva solo; si alguna vez vence, se genera otro y se reemplaza la variable).
+2. **Firebase** (proyecto de la app): Configuración del proyecto →
+   - *Cuentas de servicio* → "Generar nueva clave privada" → pegar el JSON entero en Vercel como `FIREBASE_SERVICE_ACCOUNT`.
+   - *Cloud Messaging* → *Certificados push web* → "Generar par de claves" → la clave pública va como `VITE_FIREBASE_VAPID_KEY`.
+   - *General* → agregar app Android con el `appId` de `capacitor.config.ts` → bajar `google-services.json` a `android/app/`.
+3. **Vercel** → Settings → Environment Variables: las tres de arriba, más `CRON_SECRET` (cualquier texto largo
+   al azar) y `VITE_API_BASE` con la URL de la web (p.ej. `https://tu-app.vercel.app`). Redeploy.
+4. **GitHub** → Settings → Secrets and variables → Actions: `AVISOS_URL` (la misma URL) y `CRON_SECRET`
+   (el mismo valor). Para probar: Actions → "Avisos de Instagram" → *Run workflow*.
+5. **APK**: crear `.env.local` con `VITE_API_BASE=...` y `VITE_FIREBASE_VAPID_KEY=...` antes de `npm run build`.
+
+En iPhone la web avisa solo si está agregada a la pantalla de inicio (iOS 16.4+). La app de iOS necesita
+además la clave APNs de Apple cargada en Firebase y el SDK de Firebase Messaging (queda pendiente).
+
 ### Android
 
 Requiere JDK 21 y Android SDK 36.
