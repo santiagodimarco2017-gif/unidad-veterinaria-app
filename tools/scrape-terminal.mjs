@@ -30,7 +30,7 @@ export function parseResultados(html, origen, destino) {
 }
 
 async function get(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': 'CasildaBus/1.0' } });
+  const res = await fetch(url, { headers: { 'User-Agent': 'UnidadVeterinaria/1.0' } });
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return res.text();
 }

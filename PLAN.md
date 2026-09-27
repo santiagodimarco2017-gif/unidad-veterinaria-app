@@ -1,4 +1,4 @@
-# Casilda Bus — plan de producto y desarrollo
+# Unidad Veterinaria — plan de producto y desarrollo
 
 App Android + iPhone (Capacitor 8 + React 19 + Vite 8 + TypeScript) y PWA, para saber **cuándo sale el
 colectivo Casilda ⇄ Rosario**, frecuencias, días en que corre, feriados, paros, cambios de horario,
@@ -65,7 +65,7 @@ Contrato compartido: `src/lib/types.ts` (solo cambios aditivos, avisar).
 - `clima.ts`: `climaActual(ciudad: 'Rosario' | 'Casilda')`.
 - `notifications.ts`: `pedirPermisoNotificaciones()`, `programarRecordatorios(favoritos, servicios)`, `notificarAlerta(alerta)`.
 - `sync.ts`: `sincronizar(): Promise<ResultadoSync>` que orquesta todo, guarda cache, detecta cambios y notifica alertas nuevas (sin repetir).
-- Capacitor (appId `ar.unidadveterinaria.casildabus`, nombre "Casilda Bus", CapacitorHttp habilitado, cleartext para terminalrosario.gob.ar), PWA (vite‑plugin‑pwa), ícono y splash, `npx cap add android` / `ios`.
+- Capacitor (appId `ar.unidadveterinaria.app`, nombre "Unidad Veterinaria", CapacitorHttp habilitado, cleartext para terminalrosario.gob.ar), PWA (vite‑plugin‑pwa), ícono y splash, `npx cap add android` / `ios`.
 
 ### Agente UI (Opus) — `src/main.tsx`, `src/App.tsx`, `src/index.css`, `src/App.css`, `src/state/*`, `src/screens/*`, `src/components/*`, `index.html`
 - Estado global en `src/state/` (contexto React) consumiendo las firmas de arriba.
