@@ -10,7 +10,7 @@ export function Ajustes() {
   const app = useApp();
   const { ajustes, cambiarAjustes } = app;
 
-  const notif = async (clave: 'notifParos' | 'notifCambios' | 'notifFeriados', v: boolean) => {
+  const notif = async (clave: 'notifParos' | 'notifCambios' | 'notifFeriados' | 'notifInscripciones', v: boolean) => {
     cambiarAjustes({ [clave]: v });
     if (v) {
       const ok = await pedirPermisoNotificaciones().catch(() => false);
@@ -81,6 +81,8 @@ export function Ajustes() {
             derecha={<Toggle etiqueta="Avisos de cambios" on={ajustes.notifCambios} onChange={(v) => notif('notifCambios', v)} />} />
           <Fila icono="flag" colorIcono="var(--c-blue)" titulo="Feriados" subtitulo="El día anterior" chevron={false}
             derecha={<Toggle etiqueta="Avisos de feriados" on={ajustes.notifFeriados} onChange={(v) => notif('notifFeriados', v)} />} />
+          <Fila icono="calendar" colorIcono="var(--c-teal)" titulo="Inscripciones en Guaraní" subtitulo="Cursado y mesas, según tus correlativas" chevron={false}
+            derecha={<Toggle etiqueta="Avisos de inscripción" on={ajustes.notifInscripciones} onChange={(v) => notif('notifInscripciones', v)} />} />
         </Grupo>
 
         <Grupo titulo="Empresas visibles" pie="Las empresas ocultas no aparecen en Inicio ni en Horarios.">
