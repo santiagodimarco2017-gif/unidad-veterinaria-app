@@ -1,5 +1,5 @@
 // Menú de inicio: el logo de Unidad Veterinaria y las puertas de la app (colectivos, planes de
-// estudio, mapa de la facultad y mails de cátedra), cada una con un dato en vivo para no tener que entrar.
+// estudio, mapa de la facultad, guía de trámites y mails de cátedra), cada una con un dato en vivo para no tener que entrar.
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { useApp } from '../state/AppState';
@@ -144,6 +144,18 @@ export function Menu() {
 
           <Opcion
             i={4}
+            icono="building"
+            tono="indigo"
+            titulo="Guía de trámites"
+            etiqueta="nuevo"
+            sub="Becas, boleto, certificados y título"
+            onClick={() => nav.abrir('tramites')}
+          >
+            <span className="opcion__vivo">Paso a paso y <b>a qué oficina ir</b>, con el mapa</span>
+          </Opcion>
+
+          <Opcion
+            i={5}
             icono="mail"
             tono="azul"
             titulo="Mail de la cátedra"
@@ -216,7 +228,7 @@ function useResumenPlan(): ResumenPlan | null {
 function Opcion({ i, icono, tono, titulo, etiqueta, sub, onClick, extra, children }: {
   i: number;
   icono: IconName;
-  tono: 'verde' | 'dorado' | 'azul' | 'teal' | 'coral';
+  tono: 'verde' | 'dorado' | 'azul' | 'teal' | 'coral' | 'indigo';
   titulo: string;
   etiqueta?: string;
   sub: string;

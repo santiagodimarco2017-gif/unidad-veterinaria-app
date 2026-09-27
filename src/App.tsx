@@ -68,6 +68,17 @@ function MapaPagina() {
   );
 }
 
+// Guía de trámites (becas, boleto, certificados y título), también aparte.
+const TramitesLazy = lazy(() => import('./screens/Tramites').then((m) => ({ default: m.Tramites })));
+
+function TramitesPagina() {
+  return (
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando trámites"><span className="spinner" /></div>}>
+      <TramitesLazy />
+    </Suspense>
+  );
+}
+
 const TABS: Record<Tab, () => JSX.Element> = {
   inicio: Menu,
   colectivos: Inicio,
@@ -87,6 +98,7 @@ const PAGINAS: Record<Pagina, () => JSX.Element> = {
   acerca: Acerca,
   plan2026: Plan2026Pagina,
   mapa: MapaPagina,
+  tramites: TramitesPagina,
 };
 
 function Shell() {
