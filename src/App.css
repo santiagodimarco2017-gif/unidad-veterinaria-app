@@ -1667,3 +1667,289 @@ a.fila:active { background: var(--surface-2); }
 .error-seccion { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 60vh; padding: 24px; text-align: center; }
 .error-seccion__t { font-size: 1.15rem; font-weight: 700; margin: 0; }
 .error-seccion__d { color: var(--text-2, inherit); margin: 0 0 8px; }
+
+/* ============ Menú de inicio ============ */
+.screen--menu { padding-top: calc(var(--safe-top) + 8px); }
+
+.menu-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 18px 18px;
+  border-radius: 28px;
+  color: #fff;
+  background:
+    radial-gradient(80% 70% at 100% 0%, rgba(185, 139, 62, 0.3) 0%, transparent 70%),
+    radial-gradient(70% 60% at 0% 100%, rgba(108, 194, 147, 0.18) 0%, transparent 70%),
+    linear-gradient(160deg, var(--hero-a) 0%, var(--hero-b) 100%);
+  box-shadow: var(--elev-2);
+  animation: hero-in 0.5s var(--ease) both;
+}
+.menu-hero__marca {
+  width: 260px;
+  right: -70px;
+  bottom: -80px;
+  opacity: 0.08;
+  transform: rotate(-10deg);
+  animation: menu-deriva 18s ease-in-out infinite alternate;
+}
+.menu-hero__logo {
+  border-radius: 50%;
+  animation: float 5s ease-in-out infinite;
+  transition: transform 0.2s var(--ease);
+}
+.menu-hero__logo:active { transform: scale(0.94); }
+.menu-hero__logo .app-logo {
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.16), 0 18px 34px -14px rgba(0, 0, 0, 0.6);
+}
+.menu-hero__marca-txt {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f0c979;
+}
+.menu-hero__saludo {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+.menu-hero__fecha { color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; font-weight: 600; margin-top: 4px; }
+
+.menu-estado { margin-top: 14px; }
+.menu-h { margin-top: 22px; }
+
+.menu-opciones { display: flex; flex-direction: column; gap: 12px; }
+.opcion {
+  --tono: var(--accent);
+  --tono-soft: var(--accent-soft);
+  position: relative;
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--elev);
+  overflow: hidden;
+  animation: row-in 0.45s var(--ease) both;
+  animation-delay: calc(0.12s + var(--i, 0) * 0.07s);
+}
+.opcion::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: var(--tono);
+}
+.opcion--dorado { --tono: var(--gold); --tono-soft: var(--gold-soft); }
+.opcion--azul { --tono: var(--info); --tono-soft: var(--info-soft); }
+.opcion__main {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  min-height: 104px;
+  padding: 16px 16px 16px 18px;
+  text-align: left;
+  transition: transform 0.15s var(--ease), background 0.2s;
+}
+.opcion--extra .opcion__main { padding-right: 70px; }
+.opcion__main:active { transform: scale(0.985); background: var(--surface-2); }
+.opcion__icono {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--tono-soft);
+  color: var(--tono);
+}
+.opcion--dorado .opcion__icono { color: var(--gold-ink); }
+.opcion__txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.opcion__t { font-size: 1.14rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.01em; }
+.opcion__etiqueta {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: var(--gold-soft);
+  color: var(--gold-ink);
+  font-size: 0.76rem;
+  font-weight: 800;
+  vertical-align: 2px;
+  white-space: nowrap;
+}
+.opcion__s { font-size: 0.9rem; color: var(--text-3); line-height: 1.3; }
+.opcion__vivo {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  color: var(--text-2);
+  animation: slide-up 0.35s var(--ease) both;
+}
+.opcion__vivo b { color: var(--text); font-weight: 800; }
+.opcion__dot {
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: 1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ok);
+  animation: live 1.6s ease-in-out infinite;
+}
+.opcion__pill {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 9px;
+  border-radius: 10px;
+  background: var(--tono-soft);
+  color: var(--tono);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+.opcion__nota {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: 650;
+  color: var(--gold-ink);
+}
+.opcion__chev { color: var(--text-3); align-self: center; flex-shrink: 0; }
+.opcion__extra { position: absolute; top: 14px; right: 14px; }
+.opcion__swap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--tono-soft);
+  color: var(--tono);
+  transition: transform 0.35s var(--ease-spring);
+}
+.opcion__swap:active { transform: rotate(180deg) scale(0.92); }
+
+.anillo { position: relative; display: grid; place-items: center; width: 44px; height: 44px; }
+.anillo svg { transform: rotate(-90deg); }
+.anillo circle { fill: none; stroke-width: 4; }
+.anillo__fondo { stroke: var(--surface-3); }
+.anillo__valor {
+  stroke: var(--gold);
+  stroke-linecap: round;
+  stroke-dashoffset: var(--off);
+  animation: anillo-in 0.9s 0.3s var(--ease) both;
+}
+.anillo__n { position: absolute; font-size: 0.7rem; font-weight: 800; color: var(--gold-ink); }
+
+.menu-atajos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.atajo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 4px 10px;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--elev);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-2);
+  animation: pop 0.35s var(--ease-spring) both;
+  animation-delay: calc(0.35s + var(--i, 0) * 0.05s);
+  transition: transform 0.15s var(--ease);
+}
+.atajo:active { transform: scale(0.94); }
+.atajo__icono {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.atajo__icono .tabbar__badge { right: -8px; }
+.atajo__t { white-space: nowrap; }
+.menu-evento { margin-top: 20px; color: inherit; text-decoration: none; }
+
+@keyframes anillo-in { from { stroke-dashoffset: var(--c); } }
+@keyframes menu-deriva { to { transform: rotate(-2deg) translate(-14px, -10px); } }
+
+/* ============ Mail de la cátedra ============ */
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 8px 0 14px;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--elev);
+  color: var(--text-3);
+}
+.buscador:focus-within { box-shadow: var(--elev), 0 0 0 2px var(--accent); }
+.buscador input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font-size: 1.02rem;
+  color: var(--text);
+  outline: none;
+}
+.buscador input::-webkit-search-cancel-button { display: none; }
+.buscador__x { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; }
+.buscador__x:active { background: var(--surface-2); }
+
+.mail-fila {
+  position: relative;
+  display: flex;
+  align-items: center;
+  animation: row-in 0.3s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 0.025s);
+}
+.mail-fila + .mail-fila::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 68px;
+  border-top: 1px solid var(--line);
+}
+.mail-fila__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 68px;
+  padding: 12px 4px 12px 14px;
+  color: inherit;
+  text-decoration: none;
+}
+.mail-fila__main:active { background: var(--surface-2); }
+.mail-fila__icono { background: var(--info); }
+.mail-fila__mail { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--info); font-weight: 600; }
+.mail-fila__copiar {
+  width: 48px;
+  height: 48px;
+  margin-right: 8px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+.mail-fila__copiar:active { background: var(--surface-2); color: var(--accent); }
+
+/* Pestaña recién elegida: el ícono rebota */
+.tabbar__btn.is-on .tabbar__icon svg { animation: pop 0.35s var(--ease-spring); }

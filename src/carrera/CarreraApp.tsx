@@ -1,4 +1,4 @@
-// Pestaña "Carrera" de Unidad Veterinaria: Correlativas FCV-UNR (Plan 2009 mod. 2026).
+// Pestaña "Plan de Estudio" (antes "Carrera") de Unidad Veterinaria: Correlativas FCV-UNR (Plan 2009 mod. 2026).
 // Portado de la app web original y adaptado a una pestaña móvil con SOLO 3 secciones:
 //   Materias (inicio) · Mesas (calendario, con "¿Cómo llego?") · Herramientas (menú: correlativas,
 //   simulador, estadísticas, reporte, juego, borrar avance).
@@ -9,6 +9,7 @@ import type { ReactNode } from 'react';
 import type { StudentProgress, SubjectState, Subject, ViewMode, ExamDate } from './types';
 import { SUBJECTS, evaluateAllSubjects } from './data/subjects';
 import { AcademicCalendar } from './components/AcademicCalendar';
+import { PLAN_MODIF, PLAN_TITULO } from './plan';
 import { DependencyTreeGraph } from './components/DependencyTreeGraph';
 import { SimulatorMode } from './components/SimulatorMode';
 import { AcademicStatsView } from './components/AcademicStatsView';
@@ -327,7 +328,7 @@ export default function CarreraApp() {
     <div ref={rootRef} className="carrera-root print:bg-white">
 
       {/* Barra de secciones (pegajosa, toma el inset superior): 3 botones grandes con texto */}
-      <nav className="carrera-subnav border-b border-slate-200/80 print:hidden" aria-label="Secciones de Carrera">
+      <nav className="carrera-subnav border-b border-slate-200/80 print:hidden" aria-label="Secciones del Plan de Estudio">
         <div className="max-w-4xl mx-auto grid grid-cols-3 gap-2 px-4 pt-3 pb-3">
           {SECCIONES.map(({ id, etiqueta, Icono }) => {
             const on = seccion === id;
@@ -385,13 +386,16 @@ export default function CarreraApp() {
                 </div>
                 <div className="min-w-0">
                   <h1 className="text-[1.45rem] leading-tight font-black tracking-tight text-white font-serif">
-                    Tu carrera
+                    {PLAN_TITULO}
+                    <span className="ml-2 align-middle inline-block rounded-full bg-[#f0c979] text-[#0d4a2c] text-[11px] font-black px-2 py-0.5 font-sans tracking-normal">
+                      {PLAN_MODIF}
+                    </span>
                   </h1>
                   <p className="text-[15px] font-bold text-white mt-0.5">{generalPercentage}% aprobado</p>
                   <p className="text-[13px] text-white/90 mt-0.5">
                     {regularCount} regularizadas · {readyToCourseCount} para cursar
                   </p>
-                  <p className="text-[12px] text-white/80 mt-1">Medicina Veterinaria · Plan 2009 · FCV-UNR</p>
+                  <p className="text-[12px] text-white/80 mt-1">Medicina Veterinaria · FCV-UNR</p>
                 </div>
               </div>
             </header>

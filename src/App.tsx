@@ -8,6 +8,7 @@ import type { Pagina, Tab } from './state/Nav';
 import { esNativo } from './services/plataforma';
 import { TabBar } from './components/TabBar';
 import { ErrorSeccion } from './components/ErrorSeccion';
+import { Menu } from './screens/Menu';
 import { Inicio } from './screens/Inicio';
 import { Horarios } from './screens/Horarios';
 import { Favoritos } from './screens/Favoritos';
@@ -23,22 +24,35 @@ import { Acerca } from './screens/Acerca';
 import { Onboarding } from './screens/Onboarding';
 import './App.css';
 
-// Carrera (Correlativas FCV-UNR) se carga aparte: Tailwind, fuentes y Firebase no demoran el arranque.
+// Plan de Estudio (Correlativas FCV-UNR) se carga aparte: Tailwind, fuentes y Firebase no demoran el arranque.
 const Carrera = lazy(() => import('./carrera/CarreraApp'));
 
 function CarreraTab() {
   return (
-    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando Carrera"><span className="spinner" /></div>}>
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando Plan de Estudio"><span className="spinner" /></div>}>
       <Carrera />
     </Suspense>
   );
 }
 
+// Mails de cátedra: incluye el plan de materias, también aparte.
+const MailsLazy = lazy(() => import('./screens/Mails').then((m) => ({ default: m.Mails })));
+
+function MailsTab() {
+  return (
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando mails"><span className="spinner" /></div>}>
+      <MailsLazy />
+    </Suspense>
+  );
+}
+
 const TABS: Record<Tab, () => JSX.Element> = {
-  inicio: Inicio,
+  inicio: Menu,
+  colectivos: Inicio,
   horarios: Horarios,
   favoritos: Favoritos,
   carrera: CarreraTab,
+  mails: MailsTab,
   mas: Mas,
 };
 
