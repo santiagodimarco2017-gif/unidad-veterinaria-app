@@ -57,6 +57,17 @@ function Plan2026Pagina() {
   );
 }
 
+// Mapa de la facultad (imagen con zoom), también aparte.
+const MapaLazy = lazy(() => import('./screens/MapaFacu').then((m) => ({ default: m.MapaFacu })));
+
+function MapaPagina() {
+  return (
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando mapa"><span className="spinner" /></div>}>
+      <MapaLazy />
+    </Suspense>
+  );
+}
+
 const TABS: Record<Tab, () => JSX.Element> = {
   inicio: Menu,
   colectivos: Inicio,
@@ -75,6 +86,7 @@ const PAGINAS: Record<Pagina, () => JSX.Element> = {
   ajustes: Ajustes,
   acerca: Acerca,
   plan2026: Plan2026Pagina,
+  mapa: MapaPagina,
 };
 
 function Shell() {

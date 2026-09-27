@@ -2177,3 +2177,96 @@ i.p26-celda--yo { background: transparent; box-shadow: inset 0 0 0 2.5px var(--t
 .red__txt small { font-size: 0.8rem; opacity: 0.9; }
 .red__ir { position: absolute; top: 14px; right: 14px; opacity: 0.8; }
 @media (prefers-reduced-motion: reduce) { .red { animation: none; } }
+
+/* ============ Mapa de la facultad ============ */
+:root { --coral: #c2553f; --coral-soft: rgba(194, 85, 63, 0.12); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) { --coral: #f08a72; --coral-soft: rgba(240, 138, 114, 0.15); } }
+:root[data-theme='dark'] { --coral: #f08a72; --coral-soft: rgba(240, 138, 114, 0.15); }
+.opcion--coral { --tono: var(--coral); --tono-soft: var(--coral-soft); }
+
+.mapa__ancla { scroll-margin-top: 8px; }
+.visor { position: relative; margin-top: 8px; }
+.visor__caja {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: var(--elev);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+.visor__caja:active { cursor: grabbing; }
+.visor__lienzo { position: absolute; inset: 0; transform-origin: 0 0; will-change: transform; }
+.visor__lienzo.is-anim { transition: transform 0.45s var(--ease); }
+.visor__lienzo img { display: block; width: 100%; height: 100%; pointer-events: none; -webkit-user-drag: none; }
+.visor__pin {
+  position: absolute;
+  width: 6%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+}
+.visor__pin::before {
+  content: '';
+  position: absolute;
+  inset: 17%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.25s var(--ease);
+}
+.visor__pin.is-on::before { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--coral); animation: mapa-pulso 1.6s ease-out infinite; }
+.visor__pin.is-sel::before { box-shadow: 0 0 0 2px #fff, 0 0 0 5px #e0a526; }
+@keyframes mapa-pulso {
+  0% { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--coral), 0 0 0 4px rgba(194, 85, 63, 0.5); }
+  100% { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--coral), 0 0 0 16px rgba(194, 85, 63, 0); }
+}
+.visor__zoom { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
+.visor__zoom button {
+  width: 38px; height: 38px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.94); color: #1f3a2c;
+  font-size: 1.3rem; font-weight: 700; line-height: 1;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+}
+.visor__zoom button:disabled { opacity: 0.45; }
+.mapa__info { min-height: 64px; margin-top: 12px; }
+.mapa__tip { color: var(--text-3); font-size: 0.9rem; text-align: center; padding: 8px 12px; }
+.mapa-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 12px 12px 14px; border-radius: 18px;
+  background: var(--surface); box-shadow: var(--elev);
+  animation: slide-up 0.3s var(--ease) both;
+}
+.mapa-card__txt { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.mapa-card__txt b { font-size: 1.05rem; }
+.mapa-card__txt small { color: var(--text-3); font-size: 0.85rem; }
+.mapa-card__x { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; color: var(--text-3); }
+.mapa-num {
+  flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #3b4a52; color: #fff; font-size: 0.82rem; font-weight: 800;
+}
+.mapa-num--grande { width: 40px; height: 40px; font-size: 1rem; background: var(--coral); }
+.mapa-num--estudio { background: var(--accent); }
+.mapa-num--servicios { background: var(--coral); }
+.mapa-num--campo { background: #9a7b2f; }
+.mapa-num--accesos { background: #3b4a52; }
+.mapa-lista { margin-top: 10px; }
+.mapa-fila {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 10px 14px; text-align: left; color: inherit;
+  animation: slide-up 0.3s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 0.025s);
+}
+.mapa-fila + .mapa-fila { border-top: 1px solid var(--line, rgba(0, 0, 0, 0.06)); }
+.mapa-fila.is-on { background: var(--coral-soft); }
+.mapa-fila:active { background: var(--surface-2); }
+@media (prefers-reduced-motion: reduce) {
+  .visor__lienzo.is-anim { transition: none; }
+  .visor__pin.is-on::before { animation: none; }
+  .mapa-fila, .mapa-card { animation: none; }
+}
