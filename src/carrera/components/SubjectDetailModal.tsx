@@ -1,9 +1,10 @@
 // Detalle de una materia (adaptación móvil para Unidad Veterinaria): reutiliza SubjectCard con el
 // detalle desplegado, en modo "Para cursar" o "Para rendir", a pantalla completa en el teléfono.
 import React, { useState } from 'react';
-import { X, BookOpen, ShieldCheck } from 'lucide-react';
+import { X, BookOpen, ShieldCheck, Mail } from 'lucide-react';
 import type { StudentProgress, SubjectState, ViewMode } from '../types';
 import { evaluateAllSubjects } from '../data/subjects';
+import { MAIL_CATEDRA } from '../data/fcv';
 import { SubjectCard } from './SubjectCard';
 
 interface SubjectDetailModalProps {
@@ -26,6 +27,7 @@ export const SubjectDetailModal: React.FC<SubjectDetailModalProps> = ({
   const [mode, setMode] = useState<ViewMode>(initialMode);
   const evaluation = evaluateAllSubjects(progress, mode).get(code);
   if (!evaluation) return null;
+  const mail = MAIL_CATEDRA[code];
 
   return (
     <div
@@ -46,6 +48,14 @@ export const SubjectDetailModal: React.FC<SubjectDetailModalProps> = ({
             </span>
             <h2 className="font-serif font-bold text-lg leading-tight mt-1">{evaluation.subject.name}</h2>
             <p className="text-[11px] text-emerald-100/90">{evaluation.subject.year}º año • Requisito: {evaluation.subject.rawPrereqsText || 'Ninguno'}</p>
+            {mail && (
+              <a
+                href={`mailto:${mail}`}
+                className="mt-1 inline-flex items-center gap-1 text-[12px] font-semibold text-[#fec975] no-underline break-all"
+              >
+                <Mail className="w-3.5 h-3.5 shrink-0" aria-hidden /> {mail}
+              </a>
+            )}
           </div>
           <button
             type="button"

@@ -1,4 +1,5 @@
-// Inicio: lo esencial. Sentido → próximo colectivo → 3 siguientes → accesos grandes.
+// Colectivos: lo esencial. Sentido → próximo colectivo → 3 siguientes → accesos grandes.
+// (Se abre desde el menú de inicio o la pestaña Colectivos.)
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from '../state/AppState';
 import { useNav } from '../state/Nav';
@@ -15,6 +16,7 @@ import { DESTINO, desdeISO, diaLargo, etiquetaDia } from '../state/util';
 import { useFavoritosOrdenados } from './Favoritos';
 import { opcionesParaLlegar, parsearHoraMesa } from '../lib/comoLlego';
 import { nombreEmpresa } from '../components/EmpresaChip';
+import { AppLogo } from '../components/AppLogo';
 
 export function Inicio() {
   const app = useApp();
@@ -42,8 +44,14 @@ export function Inicio() {
     <PullToRefresh onRefresh={app.actualizar} cargando={app.sincronizando}>
       <div className="screen screen--inicio">
         <header className="inicio-head">
-          <p className="inicio-head__date">{diaLargo(ahora)}</p>
-          <h1 className="inicio-head__title">¿Para dónde vas?</h1>
+          <div className="inicio-head__txt">
+            <p className="inicio-head__marca">Colectivos · Casilda ⇄ Rosario</p>
+            <h1 className="inicio-head__title">¿Para dónde vas?</h1>
+            <p className="inicio-head__date">{diaLargo(ahora)}</p>
+          </div>
+          <button type="button" className="inicio-head__logo" onClick={() => nav.abrir('acerca')} aria-label="Acerca de Unidad Veterinaria">
+            <AppLogo size={52} />
+          </button>
         </header>
 
         <DirectionSwitch direccion={direccion} onChange={app.setDireccion} />
@@ -105,11 +113,17 @@ export function Inicio() {
             <Tile icono="clock" titulo="Horarios" sub="Todas las salidas" onClick={() => nav.verHorarios()} />
             <Tile icono="star" titulo="Mis favoritos" sub={app.favoritos.length ? `${app.favoritos.length} guardado${app.favoritos.length > 1 ? 's' : ''}` : 'Tus viajes de siempre'} onClick={() => nav.irA('favoritos')} />
             <Tile icono="car" titulo="Remises y taxis" sub="Llamar en Casilda" onClick={() => nav.abrir('remises')} />
-            <Tile icono="graduationCap" titulo="Carrera" sub="Materias y mesas" onClick={() => nav.irA('carrera')} />
+            <Tile icono="graduationCap" titulo="Plan de Estudio" sub="Materias y mesas" onClick={() => nav.irA('carrera')} />
           </div>
         </section>
 
-        <p className="footnote">Los horarios pueden variar; confirmá con la empresa.</p>
+        <footer className="firma">
+          <AppLogo size={30} />
+          <span>
+            <b>Unidad Veterinaria</b>
+            Los horarios pueden variar; confirmá con la empresa.
+          </span>
+        </footer>
       </div>
     </PullToRefresh>
   );

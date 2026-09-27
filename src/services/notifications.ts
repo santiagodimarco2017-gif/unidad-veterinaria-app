@@ -11,6 +11,7 @@ import { esNativo } from './plataforma';
 
 export const CANAL_RECORDATORIOS = 'recordatorios';
 export const CANAL_ALERTAS = 'alertas';
+export const CANAL_INSCRIPCIONES = 'inscripciones';
 
 /** Rango de ids reservado para notificaciones de recordatorio (evita chocar con las de alerta). */
 const ID_BASE_RECORDATORIOS = 20_000;
@@ -18,6 +19,9 @@ const ID_RANGO_RECORDATORIOS = 10_000;
 /** Rango reservado para notificaciones de alerta inmediatas. */
 const ID_BASE_ALERTAS = 30_000;
 const ID_RANGO_ALERTAS = 10_000;
+/** Rango reservado para avisos de inscripción de Carrera (cursado y mesas). */
+const ID_BASE_INSCRIPCIONES = 40_000;
+const ID_RANGO_INSCRIPCIONES = 10_000;
 
 /** Capacitor Weekday: 1 = domingo .. 7 = sábado. */
 const DIA_A_WEEKDAY: Record<DiaKey, number> = {
@@ -62,6 +66,14 @@ async function asegurarCanales(): Promise<void> {
       id: CANAL_ALERTAS,
       name: 'Alertas de servicio',
       description: 'Paros, cambios de horario y feriados',
+      importance: 4,
+      visibility: 1,
+      vibration: true,
+    },
+    {
+      id: CANAL_INSCRIPCIONES,
+      name: 'Inscripciones en Guaraní',
+      description: 'Cuándo abre y cierra la inscripción a cursado y a mesas',
       importance: 4,
       visibility: 1,
       vibration: true,
@@ -208,5 +220,42 @@ export async function notificarAlerta(alerta: Alerta): Promise<void> {
     new Notification(alerta.titulo, { body: alerta.detalle ?? '' });
   } catch {
     // no-op
+  }
+}
+
+async function cancelarRango(base: number, rango: number): Promise<void> {
+  try {
+    const pendientes = await LocalNotifications.getPending();
+    const ids = pendientes.notifications.map((n) => n.id).filter((id) => id >= base && id < base + rango);
+    if (ids.length > 0) await LocalNotifications.cancel({ notifications: ids.map((id) => ({ id })) });
+  } catch {
+    // Seguir igual.
+  }
+}
+
+/**
+ * Reemplaza los avisos de inscripción programados por `avisos` (lista vacía = cancelar todos).
+ * Solo en nativo. Devuelve la cantidad programada.
+ */
+export async function programarAvisosInscripcion(
+  avisos: { clave: string; fecha: Date; titulo: string; cuerpo: string }[],
+): Promise<number> {
+  if (!esNativo()) return 0;
+  await asegurarCanales();
+  await cancelarRango(ID_BASE_INSCRIPCIONES, ID_RANGO_INSCRIPCIONES);
+  if (avisos.length === 0) return 0;
+  try {
+    await LocalNotifications.schedule({
+      notifications: avisos.map((a) => ({
+        id: ID_BASE_INSCRIPCIONES + (hashInt(a.clave) % ID_RANGO_INSCRIPCIONES),
+        title: a.titulo,
+        body: a.cuerpo,
+        channelId: CANAL_INSCRIPCIONES,
+        schedule: { at: a.fecha, allowWhileIdle: true },
+      })),
+    });
+    return avisos.length;
+  } catch {
+    return 0;
   }
 }

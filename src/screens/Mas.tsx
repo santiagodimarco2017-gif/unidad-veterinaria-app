@@ -1,7 +1,7 @@
 import { useApp } from '../state/AppState';
 import { useNav } from '../state/Nav';
 import { Fila, Grupo } from '../components/controles';
-import { AppLogo } from '../components/AppLogo';
+import { AppLogo, MarcaDeAgua } from '../components/AppLogo';
 import { avisosRecientes } from '../components/StatusBanner';
 
 export function Mas() {
@@ -13,10 +13,11 @@ export function Mas() {
     <div className="screen-scroll">
       <div className="screen">
         <header className="brand">
+          <MarcaDeAgua className="brand__marca" />
           <AppLogo size={56} />
           <div className="brand__txt">
             <h1 className="brand__t">Unidad Veterinaria</h1>
-            <p className="brand__s">Colectivos Casilda ⇄ Rosario y tu carrera</p>
+            <p className="brand__s">Colectivos, plan de estudio y mails de cátedra</p>
           </div>
         </header>
 
