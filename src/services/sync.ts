@@ -36,6 +36,7 @@ const AJUSTES_POR_DEFECTO: Ajustes = {
   notifParos: true,
   notifCambios: true,
   notifFeriados: true,
+  notifInscripciones: true,
   empresasOcultas: [],
   textoGrande: false,
 };

@@ -128,6 +128,8 @@ export interface Ajustes {
   notifParos: boolean;
   notifCambios: boolean;
   notifFeriados: boolean;
+  /** Avisos de inscripción a cursado y mesas en Guaraní (Carrera). */
+  notifInscripciones: boolean;
   empresasOcultas: EmpresaId[];
   textoGrande: boolean;
 }
