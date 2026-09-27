@@ -71,11 +71,7 @@ export const TRAMITES: Tramite[] = [
     pasos: [
       { texto: 'Descargá el formulario de inscripción y la lista de requisitos 2026.', enlace: { titulo: 'Formulario Becas Vivienda (PDF)', url: 'https://fveter.unr.edu.ar/assets/archivos/Formulario%20Becas%20Vivienda.pdf' } },
       { texto: 'Juntá la documentación de la lista (los datos personales van como declaración jurada).', enlace: { titulo: 'Requisitos beca de vivienda 2026 (PDF)', url: 'https://fveter.unr.edu.ar/assets/archivos/Requisitos%20beca%20de%20vivienda%202026.pdf' } },
-      {
-        texto: 'Entregá todo en la Secretaría de Relaciones Estudiantiles y Graduados.',
-        lugar: 30,
-        sinConfirmar: 'Suponemos que es la "Secretaría Estudiantil" del mapa (30); la web no da la ubicación',
-      },
+      { texto: 'Entregá todo en la Secretaría de Relaciones Estudiantiles y Graduados (la Secretaría Estudiantil).', lugar: 30 },
     ],
     contacto: { tel: TEL_FCV },
     fuente: { titulo: 'fveter.unr.edu.ar: Becas de la Facultad', url: 'https://fveter.unr.edu.ar/becasdelfacultad.html' },
@@ -105,10 +101,7 @@ export const TRAMITES: Tramite[] = [
       { texto: 'Ingresá con tu ID Ciudadana (si no tenés, creala) y completá tus datos.' },
       { texto: 'Si el sistema te lo pide, subí el certificado de alumno regular (lo sacás en Guaraní).' },
       { texto: 'Cuando te aprueben, acreditalo en tu tarjeta SUBE en cualquier terminal. En los interurbanos sin SUBE el pasaje sale como voucher o código QR desde la app.' },
-      {
-        texto: 'Para ir y volver de Rosario, fijate en la app qué empresas del corredor Casilda ⇄ Rosario lo aceptan.',
-        sinConfirmar: 'Las fuentes no listan empresas ni si cubre el tramo Casilda ⇄ Rosario',
-      },
+      { texto: 'Sirve en toda la provincia de Santa Fe, también para el colectivo Casilda ⇄ Rosario.' },
     ],
     fuente: { titulo: 'La Capital: el trámite paso a paso', url: 'https://www.lacapital.com.ar/la-ciudad/boleto-educativo-santa-fe-el-tramite-paso-paso-obtener-el-beneficio-n10241849.html' },
   },
@@ -173,14 +166,10 @@ export const TRAMITES: Tramite[] = [
 
 /** Oficinas del predio a las que mandan los trámites (número del mapa y para qué ir) */
 export const OFICINAS: { lugar: number; para: string; sinConfirmar?: string }[] = [
-  { lugar: 30, para: 'Retirar certificados. Becas de vivienda.' },
+  { lugar: 30, para: 'Secretaría de Relaciones Estudiantiles y Graduados: retirar certificados y becas de vivienda.' },
   { lugar: 16, para: 'Inscripciones, reinscripción y reclamos con número de transacción.', sinConfirmar: 'La web no detalla qué se atiende en ventanilla' },
   { lugar: 3, para: 'Decanato y autoridades.' },
-  {
-    lugar: 29,
-    para: 'Atención de salud para estudiantes.',
-    sinConfirmar: 'La web de la facultad ubica el Centro de Salud en el Pabellón 15; el mapa lo marca en el 29',
-  },
+  { lugar: 15, para: 'Atención de salud para estudiantes, en el Pabellón 15.' },
 ];
 
 export const CONTACTO_FCV = { tel: TEL_FCV, dir: 'Bv. Ovidio Lagos 1000, Casilda' };

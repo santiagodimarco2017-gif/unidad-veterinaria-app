@@ -38,7 +38,7 @@ export const LUGARES: Lugar[] = [
   { n: 12, nombre: 'Escuela Agrotécnica', cat: 'estudio', x: 82.9, y: 48.8 },
   { n: 13, nombre: 'Industria', cat: 'campo', x: 64.7, y: 19.1 },
   { n: 14, nombre: 'Ganadería', cat: 'campo', x: 15.5, y: 5.1 },
-  { n: 15, nombre: 'Edificio 15', cat: 'estudio', x: 28.2, y: 18.4, nota: 'La referencia del mapa no dice qué es' },
+  { n: 15, nombre: 'Centro de Salud (Pabellón 15)', cat: 'servicios', x: 28.2, y: 18.4, nota: 'No figura en la referencia original del mapa' },
   { n: 16, nombre: 'Alumnado', cat: 'estudio', x: 30.2, y: 44.7 },
   { n: 17, nombre: 'Laboratorios', cat: 'estudio', x: 35.0, y: 41.6 },
   { n: 18, nombre: 'Kiosco (El Honguito)', cat: 'servicios', x: 48.2, y: 54.6 },
@@ -52,7 +52,7 @@ export const LUGARES: Lugar[] = [
   { n: 26, nombre: 'Fotocopiadora', cat: 'servicios', x: 31.2, y: 59.5 },
   { n: 27, nombre: 'Piscicultura', cat: 'campo', x: 60.3, y: 30.4 },
   { n: 28, nombre: 'Casa 9', cat: 'campo', x: 3.9, y: 58.4 },
-  { n: 29, nombre: 'Centro de Salud', cat: 'servicios', x: 23.2, y: 42.3 },
+  { n: 29, nombre: 'Centro de Salud (según la referencia)', cat: 'servicios', x: 23.2, y: 42.3, nota: 'Está en el Pabellón 15 (el 15 del mapa)' },
   { n: 30, nombre: 'Secretaría Estudiantil', cat: 'estudio', x: 26.4, y: 38.6 },
   { n: 31, nombre: 'Comedor', cat: 'servicios', x: 25.5, y: 69.8 },
 ];
