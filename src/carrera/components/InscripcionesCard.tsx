@@ -60,7 +60,7 @@ export const InscripcionesCard: React.FC<Props> = ({ progress, avisosActivos, on
             onClick={() => onToggleAvisos(!avisosActivos)}
             aria-pressed={avisosActivos}
             className={`shrink-0 inline-flex items-center gap-1.5 min-h-[40px] px-3 rounded-xl text-[13px] font-bold transition-all ${
-              avisosActivos ? 'bg-[#068136] text-white' : 'bg-white text-[#054b26] border border-[#068136]'
+              avisosActivos ? 'bg-[#0d4a2c] text-white' : 'bg-white text-[#0d4a2c] border border-[#0d4a2c]'
             }`}
           >
             {avisosActivos ? <Bell className="w-4 h-4" aria-hidden /> : <BellOff className="w-4 h-4" aria-hidden />}
@@ -113,7 +113,7 @@ export const InscripcionesCard: React.FC<Props> = ({ progress, avisosActivos, on
             href={URL_GUARANI}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${linkExterno} bg-[#068136] text-white text-[13px] px-3.5 py-2.5`}
+            className={`${linkExterno} bg-[#0d4a2c] text-white text-[13px] px-3.5 py-2.5`}
           >
             Inscribirme en Guaraní <ExternalLink className="w-4 h-4" aria-hidden />
           </a>
@@ -139,7 +139,7 @@ export const InscripcionesCard: React.FC<Props> = ({ progress, avisosActivos, on
               </li>
             ))}
           </ul>
-          <a href={URL_FCV_NOTICIAS} target="_blank" rel="noopener noreferrer" className={`${linkExterno} text-[#054b26] text-[13px]`}>
+          <a href={URL_FCV_NOTICIAS} target="_blank" rel="noopener noreferrer" className={`${linkExterno} text-[#0d4a2c] text-[13px]`}>
             Todas las novedades en fveter.unr.edu.ar <ExternalLink className="w-4 h-4" aria-hidden />
           </a>
         </section>
