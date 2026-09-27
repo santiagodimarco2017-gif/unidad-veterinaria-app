@@ -10,7 +10,7 @@ import { TABS_COLECTIVOS } from './util';
  * de él); `carrera` es el Plan de Estudio; `mails` los mails de cátedra.
  */
 export type Tab = 'inicio' | 'colectivos' | 'horarios' | 'favoritos' | 'carrera' | 'mails' | 'mas';
-export type Pagina = 'avisos' | 'remises' | 'empresas' | 'feriados' | 'ajustes' | 'acerca' | 'plan2026' | 'mapa' | 'tramites';
+export type Pagina = 'avisos' | 'remises' | 'empresas' | 'feriados' | 'ajustes' | 'acerca' | 'plan2026' | 'mapa' | 'tramites' | 'comedor';
 
 /** Vista de la pestaña Horarios: lista de salidas o gráfico de frecuencia */
 export type VistaHorarios = 'lista' | 'grafico';

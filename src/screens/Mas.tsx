@@ -35,6 +35,10 @@ export function Mas() {
           <Fila icono="flag" colorIcono="var(--info)" titulo="Feriados" subtitulo="Días con horario especial este año" onClick={() => nav.abrir('feriados')} />
         </Grupo>
 
+        <Grupo titulo="Facultad">
+          <Fila icono="building" colorIcono="var(--brand-deep)" titulo="Comedor de la Facultad" subtitulo="Menú, horarios y precios en Casilda" onClick={() => nav.abrir('comedor')} />
+        </Grupo>
+
         <Grupo titulo="La app">
           <Fila icono="settings" colorIcono="var(--c-gray)" titulo="Ajustes" subtitulo="Tema oscuro, texto grande, notificaciones" onClick={() => nav.abrir('ajustes')} />
           <Fila icono="info" colorIcono="var(--brand-deep)" titulo="Acerca de y créditos" subtitulo="Desarrollado por Unidad Veterinaria" onClick={() => nav.abrir('acerca')} />
