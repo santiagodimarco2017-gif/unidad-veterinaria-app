@@ -1,0 +1,25 @@
+# Cada 15 minutos le pide a la función de Vercel que revise si @unidadvet publicó algo nuevo en Instagram.
+# (El plan gratis de Vercel solo permite crons diarios; GitHub Actions es gratis para esto.)
+# Secrets del repo: AVISOS_URL (p.ej. https://tu-app.vercel.app) y CRON_SECRET (el mismo que en Vercel).
+name: Avisos de Instagram
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Revisar publicaciones nuevas
+        env:
+          AVISOS_URL: ${{ secrets.AVISOS_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$AVISOS_URL" ] || [ -z "$CRON_SECRET" ]; then
+            echo "Faltan los secrets AVISOS_URL / CRON_SECRET: no se revisa nada."
+            exit 0
+          fi
+          curl -fsS --max-time 60 -H "Authorization: Bearer $CRON_SECRET" "${AVISOS_URL%/}/api/instagram-avisos"
