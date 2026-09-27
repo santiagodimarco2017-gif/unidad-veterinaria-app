@@ -30,7 +30,7 @@ export function Onboarding() {
     setPidiendo(true);
     const ok = await pedirPermisoNotificaciones().catch(() => false);
     setPidiendo(false);
-    app.cambiarAjustes({ notifParos: ok, notifCambios: ok, notifFeriados: ok });
+    app.cambiarAjustes({ notifParos: ok, notifCambios: ok, notifFeriados: ok, notifInscripciones: ok });
     app.avisar(ok ? '¡Listo! Avisos activados' : 'Sin permiso: podés activarlos después en Más → Ajustes');
     app.terminarOnboarding();
   };

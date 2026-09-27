@@ -15,6 +15,9 @@ import { AcademicStatsView } from './components/AcademicStatsView';
 import { DashboardStats } from './components/DashboardStats';
 import { AcademicReportModal } from './components/AcademicReportModal';
 import { SubjectDetailModal } from './components/SubjectDetailModal';
+import { InscripcionesCard } from './components/InscripcionesCard';
+import { sincronizarAvisosInscripcion } from './avisos';
+import { pedirPermisoNotificaciones } from '../services/notifications';
 import { STORAGE_KEY } from './proximaMesa';
 import { useNav } from '../state/Nav';
 import { useApp } from '../state/AppState';
@@ -122,6 +125,22 @@ export default function CarreraApp() {
       console.error('Error saving progress:', e);
     }
   }, [progress]);
+
+  // Reprogramar los avisos de inscripción cuando cambia el avance (las materias sugeridas dependen de él).
+  const avisosInscripcion = app.ajustes.notifInscripciones;
+  useEffect(() => {
+    const id = window.setTimeout(() => { sincronizarAvisosInscripcion(avisosInscripcion).catch(() => {}); }, 800);
+    return () => window.clearTimeout(id);
+  }, [progress, avisosInscripcion]);
+
+  const toggleAvisosInscripcion = async (activo: boolean) => {
+    app.cambiarAjustes({ notifInscripciones: activo });
+    if (activo) {
+      const ok = await pedirPermisoNotificaciones().catch(() => false);
+      if (!ok) app.avisar('Permiso de notificaciones denegado. Activalo desde los ajustes del teléfono.');
+      else app.avisar('Te avisamos antes de cada inscripción');
+    }
+  };
 
   // Botón atrás de Android: cierra primero los modales de Carrera y después la herramienta abierta.
   const abiertos = useRef({ isFlappyOpen, isReportOpen, detalleCodigo, herramienta });
@@ -626,13 +645,21 @@ export default function CarreraApp() {
 
         {/* MESAS (calendario académico, con "¿Cómo llego?") */}
         {seccion === 'mesas' && (
-          <AcademicCalendar
-            evaluations={Object.fromEntries(evalRendir)}
-            progress={progress}
-            onSubjectSelect={irAMateria}
-            onComoLlego={comoLlego}
-            linkAgendar={linkAgendar}
-          />
+          <>
+            <InscripcionesCard
+              progress={progress}
+              avisosActivos={avisosInscripcion}
+              onToggleAvisos={toggleAvisosInscripcion}
+              onSubjectSelect={irAMateria}
+            />
+            <AcademicCalendar
+              evaluations={Object.fromEntries(evalRendir)}
+              progress={progress}
+              onSubjectSelect={irAMateria}
+              onComoLlego={comoLlego}
+              linkAgendar={linkAgendar}
+            />
+          </>
         )}
 
         {/* HERRAMIENTAS: menú simple */}
