@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "ar.unidadveterinaria.casildabus"
+    namespace = "ar.unidadveterinaria.app"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "ar.unidadveterinaria.casildabus"
+        applicationId "ar.unidadveterinaria.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

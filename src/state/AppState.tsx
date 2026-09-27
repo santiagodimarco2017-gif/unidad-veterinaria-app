@@ -29,6 +29,7 @@ export const AJUSTES_DEFECTO: Ajustes = {
   notifParos: true,
   notifCambios: true,
   notifFeriados: true,
+  notifInscripciones: true,
   empresasOcultas: [],
   textoGrande: false,
 };
@@ -201,6 +202,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const id = window.setTimeout(() => { programarRecordatorios(favoritos, servicios).catch(() => {}); }, 600);
     return () => window.clearTimeout(id);
   }, [favoritos, servicios, prefsListas, cargando]);
+
+  // Avisos de inscripción de Carrera (CarreraApp los vuelve a programar cuando cambia el avance).
+  useEffect(() => {
+    if (!prefsListas) return;
+    import('../carrera/avisos')
+      .then((m) => m.sincronizarAvisosInscripcion(ajustes.notifInscripciones))
+      .catch(() => {});
+  }, [ajustes.notifInscripciones, prefsListas]);
 
   // ---- tema y texto grande ----
   useEffect(() => {

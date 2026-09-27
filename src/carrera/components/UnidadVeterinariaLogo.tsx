@@ -15,7 +15,7 @@ export const UnidadVeterinariaEmblem: React.FC<{ className?: string }> = ({ clas
 
 export const UnidadVeterinariaLogoHorizontal: React.FC<LogoProps> = ({ className = "" }) => {
   return (
-    <div className={`inline-flex items-center gap-3 bg-[#068136] text-white rounded-2xl p-2 pr-5 shadow-md border border-emerald-600/30 ${className}`}>
+    <div className={`inline-flex items-center gap-3 bg-[#0d4a2c] text-white rounded-2xl p-2 pr-5 shadow-md border border-emerald-600/30 ${className}`}>
       {/* Badge Circle Icon */}
       <div className="w-11 h-11 shrink-0 bg-white/10 rounded-xl p-1 backdrop-blur-xs border border-white/20 flex items-center justify-center">
         <UnidadVeterinariaEmblem className="w-full h-full" />
@@ -36,12 +36,12 @@ export const UnidadVeterinariaLogoHorizontal: React.FC<LogoProps> = ({ className
 
 export const UnidadVeterinariaLogoVertical: React.FC<LogoProps> = ({ className = "" }) => {
   return (
-    <div className={`flex flex-col items-center text-center bg-[#068136] text-white rounded-2xl p-4 shadow-lg border border-emerald-600/30 ${className}`}>
+    <div className={`flex flex-col items-center text-center bg-[#0d4a2c] text-white rounded-2xl p-4 shadow-lg border border-emerald-600/30 ${className}`}>
       {/* Big Badge Icon */}
       <UnidadVeterinariaEmblem className="w-20 h-20 mb-2" />
 
       {/* Text Box */}
-      <div className="w-full bg-white text-[#068136] font-black text-xl tracking-widest uppercase py-1 px-3 rounded-lg shadow-xs">
+      <div className="w-full bg-white text-[#0d4a2c] font-black text-xl tracking-widest uppercase py-1 px-3 rounded-lg shadow-xs">
         UNIDAD
       </div>
       <div className="font-extrabold text-sm tracking-widest uppercase text-white mt-1.5">

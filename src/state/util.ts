@@ -1,5 +1,9 @@
 // Utilidades de presentación compartidas por pantallas y componentes.
 import type { DiaKey, Direccion } from '../lib/types';
+import type { Tab } from './Nav';
+
+/** Pestañas que se ven dentro de "Colectivos" en la barra y vuelven a ella con "atrás" */
+export const TABS_COLECTIVOS: readonly Tab[] = ['colectivos', 'horarios', 'favoritos'];
 
 export const DIAS: readonly DiaKey[] = ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'];
 export const DIA_LETRA: Record<DiaKey, string> = {

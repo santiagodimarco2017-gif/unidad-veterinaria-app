@@ -1,4 +1,4 @@
-// Pestaña "Carrera" de Unidad Veterinaria: Correlativas FCV-UNR (Plan 2009 mod. 2026).
+// Pestaña "Plan de Estudio" (antes "Carrera") de Unidad Veterinaria: Correlativas FCV-UNR (Plan 2009 mod. 2026).
 // Portado de la app web original y adaptado a una pestaña móvil con SOLO 3 secciones:
 //   Materias (inicio) · Mesas (calendario, con "¿Cómo llego?") · Herramientas (menú: correlativas,
 //   simulador, estadísticas, reporte, juego, borrar avance).
@@ -9,18 +9,23 @@ import type { ReactNode } from 'react';
 import type { StudentProgress, SubjectState, Subject, ViewMode, ExamDate } from './types';
 import { SUBJECTS, evaluateAllSubjects } from './data/subjects';
 import { AcademicCalendar } from './components/AcademicCalendar';
+import { PLAN_MODIF, PLAN_TITULO } from './plan';
 import { DependencyTreeGraph } from './components/DependencyTreeGraph';
 import { SimulatorMode } from './components/SimulatorMode';
 import { AcademicStatsView } from './components/AcademicStatsView';
 import { DashboardStats } from './components/DashboardStats';
 import { AcademicReportModal } from './components/AcademicReportModal';
 import { SubjectDetailModal } from './components/SubjectDetailModal';
+import { InscripcionesCard } from './components/InscripcionesCard';
+import { sincronizarAvisosInscripcion } from './avisos';
+import { pedirPermisoNotificaciones } from '../services/notifications';
 import { STORAGE_KEY } from './proximaMesa';
 import { useNav } from '../state/Nav';
 import { useApp } from '../state/AppState';
 import { opcionesParaLlegar, parsearHoraMesa } from '../lib/comoLlego';
 import { urlGoogleCalendar } from '../lib/googleCalendar';
 import { EMPRESAS } from '../data';
+import { MarcaDeAgua } from '../components/AppLogo';
 import {
   Clock,
   BookOpen,
@@ -121,6 +126,22 @@ export default function CarreraApp() {
       console.error('Error saving progress:', e);
     }
   }, [progress]);
+
+  // Reprogramar los avisos de inscripción cuando cambia el avance (las materias sugeridas dependen de él).
+  const avisosInscripcion = app.ajustes.notifInscripciones;
+  useEffect(() => {
+    const id = window.setTimeout(() => { sincronizarAvisosInscripcion(avisosInscripcion).catch(() => {}); }, 800);
+    return () => window.clearTimeout(id);
+  }, [progress, avisosInscripcion]);
+
+  const toggleAvisosInscripcion = async (activo: boolean) => {
+    app.cambiarAjustes({ notifInscripciones: activo });
+    if (activo) {
+      const ok = await pedirPermisoNotificaciones().catch(() => false);
+      if (!ok) app.avisar('Permiso de notificaciones denegado. Activalo desde los ajustes del teléfono.');
+      else app.avisar('Te avisamos antes de cada inscripción');
+    }
+  };
 
   // Botón atrás de Android: cierra primero los modales de Carrera y después la herramienta abierta.
   const abiertos = useRef({ isFlappyOpen, isReportOpen, detalleCodigo, herramienta });
@@ -300,14 +321,14 @@ export default function CarreraApp() {
 
   const pill = (activo: boolean) =>
     `px-3.5 py-2 rounded-full font-bold transition-all text-[13px] whitespace-nowrap ${
-      activo ? 'bg-[#068136] text-white shadow-xs' : 'bg-white text-slate-700 border border-slate-200'
+      activo ? 'bg-[#0d4a2c] text-white shadow-xs' : 'bg-white text-slate-700 border border-slate-200'
     }`;
 
   return (
     <div ref={rootRef} className="carrera-root print:bg-white">
 
       {/* Barra de secciones (pegajosa, toma el inset superior): 3 botones grandes con texto */}
-      <nav className="carrera-subnav border-b border-slate-200/80 print:hidden" aria-label="Secciones de Carrera">
+      <nav className="carrera-subnav border-b border-slate-200/80 print:hidden" aria-label="Secciones del Plan de Estudio">
         <div className="max-w-4xl mx-auto grid grid-cols-3 gap-2 px-4 pt-3 pb-3">
           {SECCIONES.map(({ id, etiqueta, Icono }) => {
             const on = seccion === id;
@@ -319,7 +340,7 @@ export default function CarreraApp() {
                 aria-current={on ? 'page' : undefined}
                 className={`min-h-[52px] inline-flex flex-col items-center justify-center gap-0.5 px-1 rounded-2xl text-[13px] font-bold transition-all ${
                   on
-                    ? 'bg-[#068136] text-white shadow-sm'
+                    ? 'bg-[#0d4a2c] text-white shadow-sm'
                     : 'bg-white text-slate-700 border border-slate-200'
                 }`}
               >
@@ -336,7 +357,8 @@ export default function CarreraApp() {
         {seccion === 'materias' && (
           <>
             {/* Tarjeta de avance (compacta) */}
-            <header className="bg-[#068136] text-white rounded-3xl p-5 shadow-md relative overflow-hidden print:shadow-none print:bg-emerald-800">
+            <header className="bg-[#0d4a2c] text-white rounded-3xl p-5 shadow-md relative overflow-hidden isolate print:shadow-none print:bg-emerald-800">
+              <MarcaDeAgua className="carrera-marca print:hidden" />
               <div className="flex items-center gap-4">
                 <div className="relative w-20 h-20 shrink-0 flex items-center justify-center">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36" aria-hidden>
@@ -364,13 +386,16 @@ export default function CarreraApp() {
                 </div>
                 <div className="min-w-0">
                   <h1 className="text-[1.45rem] leading-tight font-black tracking-tight text-white font-serif">
-                    Tu carrera
+                    {PLAN_TITULO}
+                    <span className="ml-2 align-middle inline-block rounded-full bg-[#f0c979] text-[#0d4a2c] text-[11px] font-black px-2 py-0.5 font-sans tracking-normal">
+                      {PLAN_MODIF}
+                    </span>
                   </h1>
                   <p className="text-[15px] font-bold text-white mt-0.5">{generalPercentage}% aprobado</p>
                   <p className="text-[13px] text-white/90 mt-0.5">
                     {regularCount} regularizadas · {readyToCourseCount} para cursar
                   </p>
-                  <p className="text-[12px] text-white/80 mt-1">Medicina Veterinaria · Plan 2009 · FCV-UNR</p>
+                  <p className="text-[12px] text-white/80 mt-1">Medicina Veterinaria · FCV-UNR</p>
                 </div>
               </div>
             </header>
@@ -386,7 +411,7 @@ export default function CarreraApp() {
                 aria-pressed={activeTab === 'cursar' && activeFilter === 'puedo_cursar'}
                 className={`min-h-[56px] py-3 px-3 rounded-2xl text-sm font-bold transition-all flex items-center justify-center gap-1.5 text-center leading-tight ${
                   activeTab === 'cursar' && activeFilter === 'puedo_cursar'
-                    ? 'bg-[#068136] text-white shadow-md'
+                    ? 'bg-[#0d4a2c] text-white shadow-md'
                     : 'bg-white text-slate-800 border border-slate-200'
                 }`}
               >
@@ -403,7 +428,7 @@ export default function CarreraApp() {
                 aria-pressed={activeTab === 'rendir' && activeFilter === 'puedo_rendir'}
                 className={`min-h-[56px] py-3 px-3 rounded-2xl text-sm font-bold transition-all flex items-center justify-center gap-1.5 text-center leading-tight ${
                   activeTab === 'rendir' && activeFilter === 'puedo_rendir'
-                    ? 'bg-[#068136] text-white shadow-md'
+                    ? 'bg-[#0d4a2c] text-white shadow-md'
                     : 'bg-white text-slate-800 border border-slate-200'
                 }`}
               >
@@ -422,7 +447,7 @@ export default function CarreraApp() {
                   aria-label="Buscar materia"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-5 pr-12 py-3.5 bg-white border border-slate-200 rounded-2xl text-[15px] text-slate-800 placeholder-slate-500 shadow-xs focus:outline-none focus:ring-2 focus:ring-[#068136]"
+                  className="w-full pl-5 pr-12 py-3.5 bg-white border border-slate-200 rounded-2xl text-[15px] text-slate-800 placeholder-slate-500 shadow-xs focus:outline-none focus:ring-2 focus:ring-[#0d4a2c]"
                 />
                 {searchQuery ? (
                   <button
@@ -624,13 +649,21 @@ export default function CarreraApp() {
 
         {/* MESAS (calendario académico, con "¿Cómo llego?") */}
         {seccion === 'mesas' && (
-          <AcademicCalendar
-            evaluations={Object.fromEntries(evalRendir)}
-            progress={progress}
-            onSubjectSelect={irAMateria}
-            onComoLlego={comoLlego}
-            linkAgendar={linkAgendar}
-          />
+          <>
+            <InscripcionesCard
+              progress={progress}
+              avisosActivos={avisosInscripcion}
+              onToggleAvisos={toggleAvisosInscripcion}
+              onSubjectSelect={irAMateria}
+            />
+            <AcademicCalendar
+              evaluations={Object.fromEntries(evalRendir)}
+              progress={progress}
+              onSubjectSelect={irAMateria}
+              onComoLlego={comoLlego}
+              linkAgendar={linkAgendar}
+            />
+          </>
         )}
 
         {/* HERRAMIENTAS: menú simple */}
@@ -813,7 +846,7 @@ function ModoSwitch({ modo, setModo }: { modo: ViewMode; setModo: (m: ViewMode) 
         aria-checked={modo === 'cursar'}
         onClick={() => setModo('cursar')}
         className={`flex-1 min-h-[44px] px-3 rounded-xl text-sm font-bold transition-all ${
-          modo === 'cursar' ? 'bg-[#068136] text-white shadow-xs' : 'text-slate-700'
+          modo === 'cursar' ? 'bg-[#0d4a2c] text-white shadow-xs' : 'text-slate-700'
         }`}
       >
         Para cursar
@@ -824,7 +857,7 @@ function ModoSwitch({ modo, setModo }: { modo: ViewMode; setModo: (m: ViewMode) 
         aria-checked={modo === 'rendir'}
         onClick={() => setModo('rendir')}
         className={`flex-1 min-h-[44px] px-3 rounded-xl text-sm font-bold transition-all ${
-          modo === 'rendir' ? 'bg-[#068136] text-white shadow-xs' : 'text-slate-700'
+          modo === 'rendir' ? 'bg-[#0d4a2c] text-white shadow-xs' : 'text-slate-700'
         }`}
       >
         Para rendir

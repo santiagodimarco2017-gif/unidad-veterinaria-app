@@ -9,6 +9,7 @@ import { esNativo } from './services/plataforma';
 import { escucharAvisosInstagram } from './services/avisosInstagram';
 import { TabBar } from './components/TabBar';
 import { ErrorSeccion } from './components/ErrorSeccion';
+import { Menu } from './screens/Menu';
 import { Inicio } from './screens/Inicio';
 import { Horarios } from './screens/Horarios';
 import { Favoritos } from './screens/Favoritos';
@@ -21,25 +22,72 @@ import { Empresas } from './screens/Empresas';
 import { FeriadosAnio } from './screens/FeriadosAnio';
 import { Ajustes } from './screens/Ajustes';
 import { Acerca } from './screens/Acerca';
+import { Comedor } from './screens/Comedor';
 import { Onboarding } from './screens/Onboarding';
 import './App.css';
 
-// Carrera (Correlativas FCV-UNR) se carga aparte: Tailwind, fuentes y Firebase no demoran el arranque.
+// Plan de Estudio (Correlativas FCV-UNR) se carga aparte: Tailwind, fuentes y Firebase no demoran el arranque.
 const Carrera = lazy(() => import('./carrera/CarreraApp'));
 
 function CarreraTab() {
   return (
-    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando Carrera"><span className="spinner" /></div>}>
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando Plan de Estudio"><span className="spinner" /></div>}>
       <Carrera />
     </Suspense>
   );
 }
 
+// Mails de cátedra: incluye el plan de materias, también aparte.
+const MailsLazy = lazy(() => import('./screens/Mails').then((m) => ({ default: m.Mails })));
+
+function MailsTab() {
+  return (
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando mails"><span className="spinner" /></div>}>
+      <MailsLazy />
+    </Suspense>
+  );
+}
+
+// Plan de Estudios 2026 (datos del documento de la facultad), también aparte.
+const Plan2026Lazy = lazy(() => import('./screens/Plan2026').then((m) => ({ default: m.Plan2026 })));
+
+function Plan2026Pagina() {
+  return (
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando Plan 2026"><span className="spinner" /></div>}>
+      <Plan2026Lazy />
+    </Suspense>
+  );
+}
+
+// Mapa de la facultad (imagen con zoom), también aparte.
+const MapaLazy = lazy(() => import('./screens/MapaFacu').then((m) => ({ default: m.MapaFacu })));
+
+function MapaPagina() {
+  return (
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando mapa"><span className="spinner" /></div>}>
+      <MapaLazy />
+    </Suspense>
+  );
+}
+
+// Guía de trámites (becas, boleto, certificados y título), también aparte.
+const TramitesLazy = lazy(() => import('./screens/Tramites').then((m) => ({ default: m.Tramites })));
+
+function TramitesPagina() {
+  return (
+    <Suspense fallback={<div className="carrera-cargando" role="status" aria-label="Cargando trámites"><span className="spinner" /></div>}>
+      <TramitesLazy />
+    </Suspense>
+  );
+}
+
 const TABS: Record<Tab, () => JSX.Element> = {
-  inicio: Inicio,
+  inicio: Menu,
+  colectivos: Inicio,
   horarios: Horarios,
   favoritos: Favoritos,
   carrera: CarreraTab,
+  mails: MailsTab,
   mas: Mas,
 };
 
@@ -50,6 +98,10 @@ const PAGINAS: Record<Pagina, () => JSX.Element> = {
   feriados: FeriadosAnio,
   ajustes: Ajustes,
   acerca: Acerca,
+  plan2026: Plan2026Pagina,
+  mapa: MapaPagina,
+  tramites: TramitesPagina,
+  comedor: Comedor,
 };
 
 function Shell() {
