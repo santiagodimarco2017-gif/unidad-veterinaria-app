@@ -9,7 +9,7 @@ import { Icon } from '../components/Icon';
 export function Comedor() {
   const casilda = COMEDOR_CASILDA;
   return (
-    <Page titulo="Comedor">
+    <Page titulo="Comedor de la Facultad">
       <div className="screen">
         <p className="lead">El menú cambia todas las semanas y se ve en MORA, el sistema de reservas de la UNR, con tu DNI y clave.</p>
 

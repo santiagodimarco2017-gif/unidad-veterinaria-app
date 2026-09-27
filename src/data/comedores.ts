@@ -56,5 +56,13 @@ export const ALTA_COMEDOR: { quien: string; que: string }[] = [
   { quien: 'Docentes y no docentes', que: 'Recibo de sueldo y DNI.' },
 ];
 
+/** Horario del mes (febrero es receso parcial: sin cena); null en diciembre y enero, sin datos publicados. */
+export function horarioDelMes(fecha: Date): FranjaHoraria | null {
+  const m = fecha.getMonth();
+  if (m === 1) return HORARIOS_COMEDOR[1];
+  if (m >= 2 && m <= 10) return HORARIOS_COMEDOR[0];
+  return null;
+}
+
 export const formatoPesos = (n: number): string => `$${n.toLocaleString('es-AR')}`;
 
