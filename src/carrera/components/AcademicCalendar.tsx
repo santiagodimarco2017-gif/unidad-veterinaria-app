@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import type { ExamDate } from '../types';
 import {
   Calendar as CalendarIcon,
@@ -87,7 +87,6 @@ export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
   const [selectedEventType, setSelectedEventType] = useState<'all' | 'exams' | 'milestones' | 'escalonadas'>('all');
   const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
   const [yearSelected] = useState<number>(2026);
-  const [selectedDayNumber, setSelectedDayNumber] = useState<number | null>(null);
 
   // Month data
   const daysInSelectedMonth = useMemo(() => {
@@ -113,52 +112,52 @@ export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
     return stats;
   }, []);
 
-  // Filter logic for a day's exams
-  const filterExam = (exam: ReturnType<typeof getAllExamDates2026>[0]) => {
-    // Search term
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      const matchName = exam.subjectName.toLowerCase().includes(term);
-      const matchCode = exam.subjectCode.toLowerCase().includes(term);
-      const matchTurn = exam.turnName.toLowerCase().includes(term);
-      if (!matchName && !matchCode && !matchTurn) return false;
-    }
-
-    // Event type filter
-    if (selectedEventType === 'escalonadas' && !exam.turnName.includes('Escalonada')) {
-      return false;
-    }
-
-    // Student availability filter
-    if (onlyCanTakeExams) {
-      const evalItem = evaluations[exam.subjectCode];
-      if (!evalItem) return false;
-      // Already approved -> don't need to take
-      if (evalItem.state === 'aprobada') return false;
-      // Is regular OR pending with all prerequisites met
-      const canTake = evalItem.state === 'regular' || (evalItem.state === 'pendiente' && evalItem.isEnabled);
-      if (!canTake) return false;
-    }
-
-    return true;
-  };
-
-  // Filter logic for milestones
-  const filterMilestone = (milestone: (typeof ACADEMIC_MILESTONES_2026)[0]) => {
-    if (selectedEventType === 'exams' || selectedEventType === 'escalonadas') {
-      return false;
-    }
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      const matchTitle = milestone.title.toLowerCase().includes(term);
-      const matchDesc = milestone.description?.toLowerCase().includes(term) ?? false;
-      if (!matchTitle && !matchDesc) return false;
-    }
-    return true;
-  };
-
   // Days with filtered events
   const filteredDays = useMemo(() => {
+    const term = searchTerm.toLowerCase();
+
+    // Filter logic for a day's exams
+    const filterExam = (exam: ReturnType<typeof getAllExamDates2026>[0]) => {
+      // Search term
+      if (term) {
+        const matchName = exam.subjectName.toLowerCase().includes(term);
+        const matchCode = exam.subjectCode.toLowerCase().includes(term);
+        const matchTurn = exam.turnName.toLowerCase().includes(term);
+        if (!matchName && !matchCode && !matchTurn) return false;
+      }
+
+      // Event type filter
+      if (selectedEventType === 'escalonadas' && !exam.turnName.includes('Escalonada')) {
+        return false;
+      }
+
+      // Student availability filter
+      if (onlyCanTakeExams) {
+        const evalItem = evaluations[exam.subjectCode];
+        if (!evalItem) return false;
+        // Already approved -> don't need to take
+        if (evalItem.state === 'aprobada') return false;
+        // Is regular OR pending with all prerequisites met
+        const canTake = evalItem.state === 'regular' || (evalItem.state === 'pendiente' && evalItem.isEnabled);
+        if (!canTake) return false;
+      }
+
+      return true;
+    };
+
+    // Filter logic for milestones
+    const filterMilestone = (milestone: (typeof ACADEMIC_MILESTONES_2026)[0]) => {
+      if (selectedEventType === 'exams' || selectedEventType === 'escalonadas') {
+        return false;
+      }
+      if (term) {
+        const matchTitle = milestone.title.toLowerCase().includes(term);
+        const matchDesc = milestone.description?.toLowerCase().includes(term) ?? false;
+        if (!matchTitle && !matchDesc) return false;
+      }
+      return true;
+    };
+
     return daysInSelectedMonth.map((day) => {
       const filteredExams = day.exams.filter(filterExam);
       const filteredMilestones = day.milestones.filter(filterMilestone);
@@ -171,15 +170,15 @@ export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
     });
   }, [daysInSelectedMonth, searchTerm, onlyCanTakeExams, selectedEventType, evaluations]);
 
-  // Auto select first day with events when filters/month change
-  useEffect(() => {
-    const firstEventDay = filteredDays.find((d) => d.hasEvents);
-    if (firstEventDay) {
-      setSelectedDayNumber(firstEventDay.dayNumber);
-    } else {
-      setSelectedDayNumber(1);
-    }
-  }, [selectedMonth, searchTerm, onlyCanTakeExams, selectedEventType]);
+  // Día elegido: el que tocó el usuario con estos filtros y este mes; si cambian,
+  // vuelve al primer día con eventos (o al 1).
+  const filtersKey = `${selectedMonth}|${searchTerm}|${onlyCanTakeExams}|${selectedEventType}`;
+  const [pickedDay, setPickedDay] = useState<{ key: string; day: number } | null>(null);
+  const selectedDayNumber =
+    pickedDay?.key === filtersKey
+      ? pickedDay.day
+      : (filteredDays.find((d) => d.hasEvents)?.dayNumber ?? 1);
+  const setSelectedDayNumber = (day: number) => setPickedDay({ key: filtersKey, day });
 
   // First day of month padding for grid layout
   const firstDayOffset = useMemo(() => {
