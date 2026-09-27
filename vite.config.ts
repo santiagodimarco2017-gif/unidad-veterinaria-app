@@ -3,9 +3,9 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// Acento de marca: ver assets/logo-uv-original.png (verde Unidad Veterinaria).
-const THEME_COLOR = '#068136'
-const BACKGROUND_COLOR = '#068136'
+// Acento de marca: verde inglés de Unidad Veterinaria (ver src/index.css).
+const THEME_COLOR = '#0d4a2c'
+const BACKGROUND_COLOR = '#0d4a2c'
 
 // https://vite.dev/config/
 export default defineConfig({

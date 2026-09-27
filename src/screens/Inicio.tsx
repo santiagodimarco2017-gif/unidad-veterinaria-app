@@ -15,6 +15,7 @@ import { DESTINO, desdeISO, diaLargo, etiquetaDia } from '../state/util';
 import { useFavoritosOrdenados } from './Favoritos';
 import { opcionesParaLlegar, parsearHoraMesa } from '../lib/comoLlego';
 import { nombreEmpresa } from '../components/EmpresaChip';
+import { AppLogo } from '../components/AppLogo';
 
 export function Inicio() {
   const app = useApp();
@@ -42,8 +43,14 @@ export function Inicio() {
     <PullToRefresh onRefresh={app.actualizar} cargando={app.sincronizando}>
       <div className="screen screen--inicio">
         <header className="inicio-head">
-          <p className="inicio-head__date">{diaLargo(ahora)}</p>
-          <h1 className="inicio-head__title">¿Para dónde vas?</h1>
+          <div className="inicio-head__txt">
+            <p className="inicio-head__marca">Unidad Veterinaria</p>
+            <h1 className="inicio-head__title">¿Para dónde vas?</h1>
+            <p className="inicio-head__date">{diaLargo(ahora)}</p>
+          </div>
+          <button type="button" className="inicio-head__logo" onClick={() => nav.abrir('acerca')} aria-label="Acerca de Unidad Veterinaria">
+            <AppLogo size={52} />
+          </button>
         </header>
 
         <DirectionSwitch direccion={direccion} onChange={app.setDireccion} />
@@ -109,7 +116,13 @@ export function Inicio() {
           </div>
         </section>
 
-        <p className="footnote">Los horarios pueden variar; confirmá con la empresa.</p>
+        <footer className="firma">
+          <AppLogo size={30} />
+          <span>
+            <b>Unidad Veterinaria</b>
+            Los horarios pueden variar; confirmá con la empresa.
+          </span>
+        </footer>
       </div>
     </PullToRefresh>
   );
