@@ -140,7 +140,7 @@ export function MapaFacu() {
           {!lista.length && <p className="muted center pad">No hay lugares con “{q}” en el mapa.</p>}
         </div>
 
-        <p className="credit-foot">Mapa: Unidad Veterinaria. El 15 (Centro de Salud) no figura en la referencia original.</p>
+        <p className="credit-foot">Mapa: Unidad Veterinaria. El Centro de Salud está en el Pabellón 15; la referencia original lo pone en el 29.</p>
       </div>
     </Page>
   );
